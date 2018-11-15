@@ -1,12 +1,11 @@
-package co.inventorsoft.academy;
+package co.inventorsoft.scripty;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
-public class AcademyApplication {
+public class ScriptyApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AcademyApplication.class, args);
+        SpringApplication.run(ScriptyApplication.class, args);
     }
 }
