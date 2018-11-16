@@ -1,0 +1,24 @@
+JWT security test
+
+User("user").password("jwtpass").roles("USER")
+User("admin").password("jwtpass").roles("USER", "ADMIN")
+
+client: jwtclientid
+secret: jwtClientSecret
+
+resource accessible to all authenticated users: http://localhost:8080/test/user
+resource accessible to only an admin user: http://localhost:8080/test/admin
+resource accessible to anybody: http://localhost:8080/test/anybody
+
+
+1) Generate an access token  client:secret@localhost:8080/oauth/token -d grant_type=password -d username=user -d password=pwd
+
+curl jwtclientid:jwtClientSecret@localhost:8080/oauth/token -d grant_type=password -d username=user -d password=jwtpass
+curl jwtclientid:jwtClientSecret@localhost:8080/oauth/token -d grant_type=password -d username=admin -d password=jwtpass
+
+JWT Debugger https://jwt.io/#debugger-io
+
+
+2) Use the token to access resources through test RESTful API
+curl http://localhost:8080/test/user -H "Authorization: Bearer _ACCESS_TOKEN_"
+
