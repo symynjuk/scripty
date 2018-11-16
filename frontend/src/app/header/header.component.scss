@@ -1,0 +1,29 @@
+@import "../variables.scss";
+
+.header{
+    width: 100vw;
+    height: 7vh;
+    background-color: $secondary-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    ul{
+        list-style-type: none;
+        margin: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center; 
+
+        li{
+            margin: 15px;
+            color: white;
+            padding-top: 23px;
+            padding-bottom: 23px;
+        }
+        li:hover{
+            cursor: pointer;
+            border-bottom: 1px solid $hover-color;
+        }
+    }
+}
