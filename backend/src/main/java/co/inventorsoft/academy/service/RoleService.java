@@ -1,5 +1,4 @@
 package co.inventorsoft.academy.service;
-
 import co.inventorsoft.academy.model.entity.Role;
 import co.inventorsoft.academy.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,5 +1,4 @@
 package co.inventorsoft.academy.service;
-
 import co.inventorsoft.academy.model.entity.User;
 import co.inventorsoft.academy.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
