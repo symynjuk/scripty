@@ -1,4 +1,5 @@
 package co.inventorsoft.academy.model.entity;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;

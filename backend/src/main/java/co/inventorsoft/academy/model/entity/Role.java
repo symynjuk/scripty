@@ -1,4 +1,5 @@
 package co.inventorsoft.academy.model.entity;
+
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;

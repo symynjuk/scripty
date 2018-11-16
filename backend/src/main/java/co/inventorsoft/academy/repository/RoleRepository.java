@@ -1,4 +1,5 @@
 package co.inventorsoft.academy.repository;
+
 import co.inventorsoft.academy.model.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
