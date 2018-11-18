@@ -1,4 +1,4 @@
-package co.inventorsoft.academy.model.entity;
+package co.inventorsoft.scripty.entity;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
@@ -17,14 +17,8 @@ public class Role {
     @Column(nullable = false)
     String name;
 
-
-    @ManyToMany
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn (name = "role_id")})
+    @ManyToMany(mappedBy = "roles")
     private List <User> users;
 
-    public void addUser(User user){
-        users.add(user);
-    }
+    public Role(){}
 }

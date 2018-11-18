@@ -1,4 +1,4 @@
-package co.inventorsoft.academy;
+package co.inventorsoft.scripty;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class AcademyApplicationTests {
+public class ScriptyApplicationTests {
 
     @Test
     public void contextLoads() {
