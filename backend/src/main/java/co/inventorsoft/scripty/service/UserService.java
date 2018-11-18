@@ -56,7 +56,6 @@ public class UserService {
                 .getTime()
                 - cal.getTime()
                 .getTime()) <= 0) {
-            //tokenRepository.delete(verificationToken);
             return "expired!";
         }
 
