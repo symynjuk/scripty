@@ -10,29 +10,32 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 
 /**
- * Created by lzabidovsky on 15.11.2018.
+ * @author lzabidovsky 
  */
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-    @Autowired
-    private ResourceServerTokenServices tokenServices;
 
-    @Value("${security.jwt.resource-ids}")
-    private String resourceIds;
+	@Autowired
+	private ResourceServerTokenServices tokenServices;
 
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId(resourceIds).tokenServices(tokenServices);
-    }
+	@Value("${security.jwt.resource-ids}")
+	private String resourceIds;
 
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-                http
-                .requestMatchers()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/test/anybody", "/test/").permitAll()
-                .antMatchers("/test/user", "/test/admin" ).authenticated();
-    }
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+		resources.resourceId(resourceIds).tokenServices(tokenServices);
+	}
+
+	@Override
+	public void configure(HttpSecurity http) throws Exception {
+		http
+			.requestMatchers().and().authorizeRequests()
+			.antMatchers("/swagger*").permitAll()
+			.antMatchers("/test/anybody", "/test/").permitAll()
+			.antMatchers("/test/user", "/test/admin" ).authenticated()
+			.antMatchers("/test/admin/*").access("hasRole('ROLE_ADMIN')")
+			.antMatchers("/test/user/*").access("hasRole('ROLE_USER')")
+			.anyRequest().authenticated();
+	}
 }

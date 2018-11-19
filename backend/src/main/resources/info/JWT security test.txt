@@ -3,22 +3,35 @@ JWT security test
 User("user").password("jwtpass").roles("USER")
 User("admin").password("jwtpass").roles("USER", "ADMIN")
 
-client: jwtclientid
-secret: jwtClientSecret
+client_id: jwtclientid
+client_secret: jwtClientSecret
 
 resource accessible to all authenticated users: http://localhost:8080/test/user
 resource accessible to only an admin user: http://localhost:8080/test/admin
 resource accessible to anybody: http://localhost:8080/test/anybody
 
 
-1) Generate an access token  client:secret@localhost:8080/oauth/token -d grant_type=password -d username=user -d password=pwd
-
-curl jwtclientid:jwtClientSecret@localhost:8080/oauth/token -d grant_type=password -d username=user -d password=jwtpass
-curl jwtclientid:jwtClientSecret@localhost:8080/oauth/token -d grant_type=password -d username=admin -d password=jwtpass
-
+1) Generate an access token
+curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'username=user&password=jwtpass&grant_type=password&client_id=jwtclientid&client_secret=jwtClientSecret' \
+  'http://localhost:8080/oauth/token'
+or
+curl -X POST -H 'Content-Type: application/json' \
+  -d '{ "username":"admin", "password":"jwtpass", "grant_type":"password", "client_id":"jwtclientid", "client_secret":"jwtClientSecret" }' \
+  'http://localhost:8080/oauth/token'
+  
 JWT Debugger https://jwt.io/#debugger-io
 
 
 2) Use the token to access resources through test RESTful API
 curl http://localhost:8080/test/user -H "Authorization: Bearer _ACCESS_TOKEN_"
 
+
+3) Refresh the access token  
+curl --request POST --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data 'grant_type=refresh_token&client_id=jwtclientid&client_secret=jwtClientSecret&refresh_token=_REFRESH_TOKEN_' \
+  --url 'http://localhost:8080/oauth/token'
+or
+curl --request POST --header 'Content-Type: application/json' \
+  --data '{ "grant_type":"refresh_token", "client_id":"jwtclientid", "client_secret":"jwtClientSecret", "refresh_token":"_REFRESH_TOKEN_" }' \
+  --url 'http://localhost:8080/oauth/token'
