@@ -20,13 +20,13 @@ public class MockRequestService {
         this.requestRepository = requestRepository;
     }
 
-    public void createNewRequest(MockRequestDto requestDto) {
+    public void createNewRequest(MockRequestDto requestDto, String token) {
         MockRequestEntity request = new MockRequestEntity();
         request.setStatus(requestDto.getStatus());
         request.setContentType(requestDto.getContentType());
         request.setBody(requestDto.getBody());
         request.setHeaders(requestDto.getHeaders());
-
+        request.setToken(token);
         requestRepository.save(request);
     }
 
@@ -42,6 +42,17 @@ public class MockRequestService {
                 }).collect(Collectors.toList());
         System.out.println(list);
         return list;
+    }
+
+    public MockRequestDto getOneByToken(String token) {
+        MockRequestEntity request = requestRepository.findByToken(token);
+        System.out.println("HERE WE ARE! " + request.getBody());
+        MockRequestDto requestDto = new MockRequestDto();
+        requestDto.setBody(request.getBody());
+        requestDto.setHeaders(request.getHeaders());
+        requestDto.setStatus(request.getStatus());
+        requestDto.setContentType(request.getContentType());
+        return requestDto;
     }
 }
 

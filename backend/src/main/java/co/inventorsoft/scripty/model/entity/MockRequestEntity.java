@@ -24,6 +24,9 @@ public class MockRequestEntity {
     @Column
     private String contentType;
 
+    @Column
+    private String token;
+
     @ElementCollection(targetClass = String.class)
     @CollectionTable(name = "headers")
     @MapKeyColumn(name="header_key", length=50)

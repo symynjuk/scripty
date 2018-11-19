@@ -5,13 +5,12 @@ import co.inventorsoft.scripty.service.MockRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 
@@ -20,14 +19,22 @@ public class MockRequestController {
     MockRequestService requestService;
 
     @PostMapping(value="/mock_request", consumes = "application/json")
-    public ResponseEntity createMockRequst(@RequestBody MockRequestDto request) {
+    public ResponseEntity<String> createMockRequst(@RequestBody MockRequestDto request) {
         HttpHeaders headers = new HttpHeaders();
-        requestService.createNewRequest(request);
-        return new ResponseEntity(request, headers, HttpStatus.OK);
+        String token = UUID.randomUUID().toString();
+        requestService.createNewRequest(request, token);
+        return new ResponseEntity(token, headers, HttpStatus.OK);
     }
 
-    @GetMapping(value="/mock_request", produces = "application/json")
-    public List<MockRequestDto> returnMockRequest() {
-        return requestService.getMockRequest();
+    @GetMapping(value="/mock_request/{token}", produces = "application/json")
+    public ResponseEntity returnMockRequest(@PathVariable String token) {
+        MockRequestDto request = requestService.getOneByToken(token);
+        HttpHeaders headers = new HttpHeaders();
+        request.getHeaders().entrySet()
+                .stream()
+                .forEach(e -> headers.add(e.getKey(), e.getValue()));
+        headers.add("Content-Type", request.getContentType());
+
+        return new ResponseEntity(request.getBody(),headers, HttpStatus.resolve(request.getStatus()));
     }
 }
