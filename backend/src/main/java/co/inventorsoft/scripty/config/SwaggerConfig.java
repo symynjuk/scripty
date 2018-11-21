@@ -36,18 +36,6 @@ public class SwaggerConfig {
         apiInfo.description(environment.getProperty("api.desc"));
         apiInfo.version(environment.getProperty("api.version"));
         return apiInfo.build();
-        /*return new ApiInfo(
-                environment.getProperty("api.title"),
-                environment.getProperty("api.desc"),
-                environment.getProperty("api.version"),
-                environment.getProperty("api.terms"),
-                new Contact(environment.getProperty("api.contact.name"),
-                        environment.getProperty("api.contact.url"),
-                        environment.getProperty("api.contact.email")),
-                "",
-                "",
-                Collections.emptyList()
-        );*/
     }
 
 }
