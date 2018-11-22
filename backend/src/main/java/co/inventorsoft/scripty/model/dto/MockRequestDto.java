@@ -5,6 +5,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.Map;
 
+/**
+ * @author A1lexen
+ */
+
 @Getter
 @Setter
 public class MockRequestDto {

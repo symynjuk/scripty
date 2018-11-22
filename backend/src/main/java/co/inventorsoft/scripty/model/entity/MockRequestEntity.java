@@ -1,13 +1,13 @@
 package co.inventorsoft.scripty.model.entity;
 
-
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import javax.persistence.*;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * @author A1lexen
+ */
 
 @Getter
 @Setter
@@ -27,13 +27,11 @@ public class MockRequestEntity {
     @Column
     private String token;
 
-    @ElementCollection(targetClass = String.class)
-    @CollectionTable(name = "headers")
-    @MapKeyColumn(name="header_key", length=50)
-    @Column(name="header_value")
+    @Column(columnDefinition = "TEXT")
+    @Convert(converter = MapConverter.class)
     private Map<String, String> headers;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     String body;
 
 }
