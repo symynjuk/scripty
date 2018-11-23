@@ -3,16 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { HeaderComponent } from './header/header.component';
-import { MainComponent } from './main/main.component';
+import { ProjectComponent } from './project/project.component';
+import { FooterComponent } from './project/footer/footer.component';
+import {MainComponent} from './project/main/main.component';
+import {SidebarComponent} from './project/sidebar/sidebar.component';
+import {HeaderComponent} from './project/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     HeaderComponent,
-    MainComponent
+    MainComponent,
+    ProjectComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
