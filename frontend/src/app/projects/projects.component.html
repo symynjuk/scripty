@@ -1,0 +1,7 @@
+<div class="projects">
+    <app-projects-search (search)="onSearch($event)" (myProjectsCheck)="showMyProjects($event)"></app-projects-search>
+    <app-projects-list [projects]="activeProjects"
+                       [searchStr]="searchStr"
+                       [onlyMyProjects]="onlyMyProjects"></app-projects-list>
+    <button mat-flat-button color="primary" id="showMoreBtn">Show more</button>
+</div>

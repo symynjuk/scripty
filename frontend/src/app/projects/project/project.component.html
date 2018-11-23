@@ -1,0 +1,48 @@
+<mat-card>
+  <mat-card-content>
+    <div class="card-row">
+      <h4>Name:</h4>
+      <mat-form-field *ngIf="isActive">
+        <input required
+               matInput
+               #input
+               [value]="project.name"
+        >
+      </mat-form-field>
+      <p *ngIf="!isActive">{{ project.name }}</p>
+    </div>
+    <div class="card-row">
+      <h4>Type:</h4>
+      <mat-form-field *ngIf="isActive">
+        <select matNativeControl>
+          <option
+                  *ngFor="let type of projectTypes"
+                  [value]="type"
+                  [selected]="project.type == type"
+          >{{ type }}</option>
+        </select>
+      </mat-form-field>
+      <p *ngIf="!isActive">{{ project.type }}</p>
+    </div>
+    <div class="card-row">
+      <h4>Author:</h4>
+      <p>{{ project.author }}</p>
+    </div>
+    <div class="card-row" *ngIf="isActive">
+      <h4>Visibility:</h4>
+      <mat-form-field>
+        <select matNativeControl>
+          <option [selected]="!project.isPrivate">Public</option>
+          <option [selected]="project.isPrivate">Private</option>
+        </select>
+      </mat-form-field>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-flat-button (click)="likeIt()">
+      <span class="material-icons" [ngStyle]="iLikeIt ? {'color': 'red'} : {'color': 'black'}">favorite</span>Like it!
+    </button>
+    <button mat-flat-button color="primary"
+            *ngIf="isActive">Save changes</button>
+  </mat-card-actions>
+</mat-card>
