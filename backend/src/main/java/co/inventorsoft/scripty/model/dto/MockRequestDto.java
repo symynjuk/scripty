@@ -1,5 +1,6 @@
 package co.inventorsoft.scripty.model.dto;
 
+import co.inventorsoft.scripty.validation.ValidContentType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,7 @@ public class MockRequestDto {
     private int status;
 
     @JsonProperty("content-type")
+    @ValidContentType
     private String contentType;
 
     private Map<String, String> headers;

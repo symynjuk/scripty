@@ -22,6 +22,9 @@ public class MockRequestService {
 
     public void createNewRequest(MockRequestDto requestDto, String token) {
         MockRequestEntity request = new MockRequestEntity();
+
+        if (requestDto.getStatus() < 100 ||  requestDto.getStatus() > 599) throw new IllegalArgumentException("Invalid Status Code input!");//TODO Change IllegalArgumentException into ScriptyException
+
         request.setStatus(requestDto.getStatus());
         request.setContentType(requestDto.getContentType());
         request.setBody(requestDto.getBody());
@@ -38,11 +41,6 @@ public class MockRequestService {
         requestDto.setHeaders(request.getHeaders());
         requestDto.setStatus(request.getStatus());
         requestDto.setContentType(request.getContentType());
-
-        String[] content = requestDto.getContentType().split(Pattern.quote("/"));
-        //TODO Throw ScriptyException for invalid input
-
-        if (requestDto.getStatus() < 100 ||  requestDto.getStatus() > 599) throw new IllegalArgumentException("Invalid Status Code input!");//TODO Change IllegalArgumentException into ScriptyException
 
         return requestDto;
     }

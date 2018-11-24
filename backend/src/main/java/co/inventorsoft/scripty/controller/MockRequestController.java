@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -26,7 +27,7 @@ public class MockRequestController {
     MockRequestService requestService;
 
     @PostMapping(value="/mock_request")
-    public ResponseEntity<String> createMockRequst(@RequestBody MockRequestDto request_dto, HttpServletRequest request) {
+    public ResponseEntity<String> createMockRequst(@Valid @RequestBody MockRequestDto request_dto, HttpServletRequest request) {
         String token = UUID.randomUUID().toString();
 
         requestService.createNewRequest(request_dto, token);
@@ -39,6 +40,7 @@ public class MockRequestController {
     public ResponseEntity returnMockRequest(@PathVariable String token) {
         MockRequestDto request = requestService.getOneByToken(token);
         String[] content = request.getContentType().split(Pattern.quote("/"));
+
         HttpHeaders headers = new HttpHeaders();
         request.getHeaders().entrySet()
                 .stream()
