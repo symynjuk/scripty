@@ -5,7 +5,7 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsListComponent } from './projects-list/projects-list.component';
 import { ProjectsSearchComponent } from './projects-search/projects-search.component';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule,
+  MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule,
   MatFormFieldModule,
   MatIconModule, MatInputModule,
   MatMenuModule,
@@ -13,17 +13,19 @@ import {
   MatTableModule,
   MatToolbarModule
 } from '@angular/material';
-import { ProjectComponent } from './project/project.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipe} from './pipes/filter.pipe';
+import { ProjectEditComponent } from './project-edit/project-edit.component';
+import { ProjectEditDialogComponent } from './project-edit-dialog/project-edit-dialog.component';
 
 @NgModule({
     declarations: [
         ProjectsComponent,
         ProjectsListComponent,
         ProjectsSearchComponent,
-        ProjectComponent,
-        FilterPipe
+        FilterPipe,
+        ProjectEditComponent,
+        ProjectEditDialogComponent
     ],
     imports: [
       CommonModule,
@@ -41,7 +43,11 @@ import {FilterPipe} from './pipes/filter.pipe';
       MatSelectModule,
       MatSortModule,
       MatTableModule,
-      MatCheckboxModule
-    ]
+      MatCheckboxModule,
+      MatDialogModule
+    ],
+  entryComponents: [
+    ProjectEditDialogComponent
+  ]
 })
 export class ProjectsModule {}

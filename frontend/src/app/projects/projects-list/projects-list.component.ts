@@ -10,6 +10,7 @@ export class ProjectsListComponent implements OnInit {
   @Input() projects: Project[];
   @Input() searchStr: string;
   @Input() onlyMyProjects: boolean;
+  displayedColumns: string[] = ['name', 'type', 'author', 'empty'];
 
   ngOnInit() {
   }
