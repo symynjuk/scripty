@@ -1,88 +1,68 @@
 package co.inventorsoft.scripty.controller;
-import co.inventorsoft.scripty.entity.User;
-import co.inventorsoft.scripty.entity.VerificationToken;
-import co.inventorsoft.scripty.entity.dto.UserDto;
-import co.inventorsoft.scripty.registration.RegistrationEvent;
+import co.inventorsoft.scripty.exception.ApplicationException;
+import co.inventorsoft.scripty.model.dto.EmailDto;
+import co.inventorsoft.scripty.model.dto.StringResponse;
+import co.inventorsoft.scripty.model.entity.User;
+import co.inventorsoft.scripty.model.entity.VerificationToken;
+import co.inventorsoft.scripty.model.dto.UserDto;
+import co.inventorsoft.scripty.service.EmailService;
 import co.inventorsoft.scripty.service.UserService;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.IOException;
 
+/**
+ *
+ * @author  Symyniuk
+ *
+ */
 @RestController
 public class RegistrationController {
 
     private UserService userService;
-    private ApplicationEventPublisher applicationEventPublisher;
-    private JavaMailSender javaMailSender;
+    private EmailService emailService;
 
     @Autowired
     public RegistrationController(UserService userService,
-                                  ApplicationEventPublisher applicationEventPublisher,
-                                  JavaMailSender javaMailSender) {
+                                  EmailService emailService) {
         this.userService = userService;
-        this.applicationEventPublisher = applicationEventPublisher;
-        this.javaMailSender = javaMailSender;
+        this.emailService = emailService;
     }
 
     @PostMapping(value = "/registration", consumes = "application/json")
-    public ResponseEntity registerUserAccount(@Valid @RequestBody UserDto userDto, HttpServletRequest request){
-      if(!(userDto.getPassword()).equals(userDto.getMatchingPassword())){
-          return ResponseEntity
-                  .status(HttpStatus.CONFLICT)
-                  .body("Please enter your confirmation password correct");
-      }else if(userService.findByEmail(userDto.getEmail()) != null){
-          return ResponseEntity
-                  .status(HttpStatus.CONFLICT)
-                  .body("There is an account with that email address: " + userDto.getEmail());
-        }
-        User registered = userService.registerNewUserAccount(userDto);
-
-        //send email to registered here user
-        applicationEventPublisher.publishEvent(new RegistrationEvent(registered, getUrl(request)));
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body("User created");
+    @ResponseStatus(HttpStatus.CREATED)
+    public void registerUserAccount(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) throws MessagingException, IOException, TemplateException {
+            final User registered = userService.registerNewUserAccount(userDto);
+            emailService.sendEmailWithVerificationLink(registered, getUrl(request));
     }
 
     @GetMapping(value = "/registrationConfirm")
-    public ResponseEntity confirmRegistration(@RequestParam("token") final String token){
-        final String result = userService.validateVerificationToken(token);
-        if (result.equals("valid")) {
-            return ResponseEntity.status(HttpStatus.OK).body("User Verified Successfully");
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Time of user verification link has expired");
+    @ResponseStatus(HttpStatus.OK)
+    public void confirmRegistration(@RequestParam("token") final String token){
+            userService.validateVerificationToken(token);
     }
 
-    @GetMapping(value = "/user/resendRegistrationToken")
-    public ResponseEntity resendRegistrationToken(final HttpServletRequest request, @RequestParam("token") final String existingToken) {
-        final VerificationToken newToken = userService.generateNewVerificationToken(existingToken);
-        final User user = userService.getUser(newToken.getToken());
-        javaMailSender.send(constructResendVerificationTokenEmail(getUrl(request), newToken, user));
-        return ResponseEntity.status(HttpStatus.OK).body("New registration email was sent");
-
+    @PostMapping(value = "/user/resendRegistrationToken", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void resendRegistrationToken(final HttpServletRequest request, @Valid @RequestBody final EmailDto email) throws MessagingException, IOException, TemplateException {
+        final User user = userService.findByEmail(email.toString());
+        final VerificationToken newToken = userService.generateNewVerificationToken(user);
+        emailService.resendEmailWithVerificationLink(user, getUrl(request), newToken);
     }
 
-
-    private SimpleMailMessage constructResendVerificationTokenEmail(final String contextPath, final VerificationToken newToken, final User user) {
-        final String confirmationUrl = contextPath + "/registrationConfirm?token=" + newToken.getToken();
-        final String message = "Please confirm activation of your account by clicking link below:\n";
-        return constructEmail("Resend Registration Token", message + " \r\n" + confirmationUrl, user);
-    }
-    private SimpleMailMessage constructEmail(String subject, String body, User user) {
-        final SimpleMailMessage email = new SimpleMailMessage();
-        email.setSubject(subject);
-        email.setText(body);
-        email.setTo(user.getEmail());
-        return email;
-    }
-
-    private String getUrl(HttpServletRequest request) {
+    private String getUrl(final HttpServletRequest request) {
         return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    }
+
+    @ExceptionHandler({ApplicationException.class})
+    public ResponseEntity<Object> handleBadRequestException(final ApplicationException exception){
+        return ResponseEntity.status(exception.getCode())
+                .body(new StringResponse(exception.getMessage()));
     }
 }

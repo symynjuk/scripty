@@ -1,12 +1,20 @@
-package co.inventorsoft.scripty.entity.dto;
+package co.inventorsoft.scripty.model.dto;
+import co.inventorsoft.scripty.validation.PasswordMatches;
 import co.inventorsoft.scripty.validation.ValidPassword;
-import lombok.AccessLevel;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-@Data
+/**
+ *
+ * @author Symyniuk
+ *
+ */
+@Getter
+@Setter
+@EqualsAndHashCode(of="id")
+@PasswordMatches
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
 

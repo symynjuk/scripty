@@ -1,13 +1,21 @@
-package co.inventorsoft.scripty.entity;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.experimental.FieldDefaults;
+package co.inventorsoft.scripty.model.entity;
 
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
 import java.util.List;
-
+/**
+ *
+ * @author Symyniuk
+ *
+ */
+@Getter
+@Setter
 @Entity
-@Data
+@EqualsAndHashCode(of="id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
     @Id
@@ -18,7 +26,12 @@ public class Role {
     String name;
 
     @ManyToMany(mappedBy = "roles")
-    private List <User> users;
+    List <User> users;
 
     public Role(){}
+
+    public Role(String name, List<User> users) {
+        this.name = name;
+        this.users = users;
+    }
 }

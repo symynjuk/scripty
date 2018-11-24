@@ -5,10 +5,14 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 
+/**
+ *
+ * @author Symyniuk
+ *
+ */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, String> {
     @Override
     public void initialize(ValidPassword constraintAnnotation) {
-
     }
 
     @Override

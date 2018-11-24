@@ -1,17 +1,24 @@
 package co.inventorsoft.scripty.service;
-import co.inventorsoft.scripty.entity.User;
-import co.inventorsoft.scripty.entity.VerificationToken;
-import co.inventorsoft.scripty.entity.dto.UserDto;
+import co.inventorsoft.scripty.exception.ApplicationException;
+import co.inventorsoft.scripty.model.entity.User;
+import co.inventorsoft.scripty.model.entity.VerificationToken;
+import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.repository.RoleRepository;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
+import java.time.Clock;
+import java.time.Instant;
 import java.util.*;
-
+/**
+ *
+ * @author Symyniuk
+ *
+ */
 @Service
 @Transactional
 public class UserService {
@@ -30,12 +37,16 @@ public class UserService {
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
     }
-    public User findByEmail(String email){
-        return userRepository.findByEmail(email);
+    public User findByEmail(final String email){
+        final User user = userRepository.findByEmail(email);
+        return user;
     }
 
-    public User registerNewUserAccount(UserDto userDto){
-        User user = new User();
+    public User registerNewUserAccount(final UserDto userDto) {
+        if(findByEmail(userDto.getEmail()) != null){
+            throw new ApplicationException("There is an account with that email address: " +  userDto.getEmail(), HttpStatus.BAD_REQUEST);
+        }
+        final User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
@@ -45,41 +56,36 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String validateVerificationToken(final String token) {
-        VerificationToken verificationToken = tokenRepository.findByToken(token);
-        if (verificationToken == null) {
-            return "invalid!";
+    public void validateVerificationToken(final String token) {
+        Optional<VerificationToken> verificationTokenOptional = Optional.ofNullable(tokenRepository.findByToken(token));
+        if(!verificationTokenOptional.isPresent()){
+            throw new ApplicationException("Wrong link", HttpStatus.BAD_REQUEST);
         }
+        final VerificationToken verificationToken = verificationTokenOptional.get();
         final User user = verificationToken.getUser();
-        final Calendar cal = Calendar.getInstance();
-        if ((verificationToken.getExpiryDate()
-                .getTime()
-                - cal.getTime()
-                .getTime()) <= 0) {
-            return "expired!";
+        Instant instantExp = verificationToken.getExpiryDate();
+        final Instant instant = Clock.systemDefaultZone().instant();
+        if ((instantExp.isBefore(instant))) {
+            throw new ApplicationException("Time of user verification link has expired", HttpStatus.BAD_REQUEST);
         }
-
         user.setEnabled(true);
         userRepository.save(user);
         tokenRepository.delete(verificationToken);
-        return "valid";
-    }
-    public User getUser(final String verificationToken) {
-        final VerificationToken token = tokenRepository.findByToken(verificationToken);
-        if (token != null) {
-            return token.getUser();
-        }
-        return null;
     }
     public void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
     }
-    public VerificationToken generateNewVerificationToken(final String existingVerificationToken) {
-        VerificationToken token = tokenRepository.findByToken(existingVerificationToken);
-        token.updateToken(UUID.randomUUID()
-                .toString());
-        token = tokenRepository.save(token);
-        return token;
+    public VerificationToken generateNewVerificationToken(final User user) {
+        Optional<VerificationToken> optionalToken = Optional.ofNullable(tokenRepository.findByUser(user));
+        if(!optionalToken.isPresent()){
+            throw new ApplicationException("Success", HttpStatus.OK);
+        }else {
+            VerificationToken token = optionalToken.get();
+            token.updateToken(UUID.randomUUID()
+                    .toString());
+            token = tokenRepository.save(token);
+            return token;
+        }
     }
 }
