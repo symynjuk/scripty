@@ -25,14 +25,26 @@
         p{
             font-weight: 100;
         }
-        textarea{
+        div{
             border: 0;
-            height: 100%;
-            background-color: $primary-color;
-            color: white;
+            height: 34vh;
+            color: black;
             font-size: 1em;
             resize: none;
-            caret-color: yellow;
+            caret-color: red;
+        }
+        iframe{
+            height: 100%;
+        }
+    }
+       
+    .iframe-show{
+        p{
+            display: none;
+        }
+        iframe{
+            display: block;
+            background-color: white;
         }
     }
 }

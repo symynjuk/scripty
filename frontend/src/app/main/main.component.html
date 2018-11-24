@@ -1,17 +1,21 @@
 <div class="mainContent">
   <form>
     <p>HTML <i class="fas fa-caret-down"></i></p>
-    <textarea></textarea>
+<!--    <textarea #htmlPanel></textarea>-->
+ <div contenteditable='true' [highlight]="highlightedHtml" #htmlPanel></div>
   </form>
   <form>
     <p>CSS <i class="fas fa-caret-down"></i></p>
-    <textarea></textarea>
+<!--    <textarea #cssPanel></textarea>-->
+ <div contenteditable='true' [highlight]="highlightedCss" #cssPanel></div>
   </form>
   <form>
     <p>Javascript <i class="fas fa-caret-down"></i></p>
-    <textarea></textarea>
+<!--    <textarea #jsPanel></textarea>-->
+ <div contenteditable='true' [highlight]="highlightedJs" #jsPanel></div>
   </form>
-  <form>
+  <form [class]="iframe">
     <p>Result</p>
+    <iframe #iframePanel></iframe>
   </form>
 </div>
