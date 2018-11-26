@@ -6,7 +6,7 @@ header {
   border-bottom: 2px solid $border-color;
   display: flex;
   justify-content: flex-start;
- ul{
+  > ul{
    list-style: none;
    display: flex;
    align-items: center;
@@ -30,5 +30,47 @@ header {
     align-self: center;
     font-weight: bold;
     text-transform: none;
+  }
+}
+.profile{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  .photo{
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    img{
+      width: 100%;
+      border:2px solid $border-color;
+      border-radius: 50%;
+    }
+   }
+  .nickname{
+    color: white;
+    font-weight: bold;
+  }
+  .dropdown-menu{
+    visibility: hidden;
+    z-index: -5;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 150px;
+    border: 2px solid $border-color;
+    li{
+      display: block;
+      text-align: left;
+      padding: 5px 0;
+    }
+    ul{
+      padding: 0 10px;
+    }
+  }
+  &:hover .dropdown-menu{
+    visibility: visible;
+    z-index: 3;
   }
 }
