@@ -28,6 +28,9 @@ public class MockRequestEntity {
     private String contentType;
 
     @Column
+    private String charset;
+
+    @Column
     private String token;
 
     @Column(columnDefinition = "TEXT")

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -36,15 +37,7 @@ public class MockRequestController {
                 .body(new StringResponse(request.getHeader("Host") + "/mock_request/" + token));
     }
 
-    @PostMapping(value = "/mock_request/{token}")
-    public ResponseEntity postMockRequest(@RequestBody Map<String, String> request) {
-        if (!request.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(new StringResponse("New data added properly."));
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new StringResponse("Body cannot be empty."));
-    }
-
-    @PutMapping(value = "/mock_request/{token}")
+    @RequestMapping(value="/mock_request/{token}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity putMockRequest(@PathVariable String token, HttpServletRequest http_request) {
         MockRequestDto request = requestService.getOneByToken(token, http_request.getMethod());
 
@@ -56,30 +49,11 @@ public class MockRequestController {
                 .forEach(e -> headers.add(e.getKey(), e.getValue()));
 
         return ResponseEntity.status(HttpStatus.resolve(request.getStatus()))
-                .contentType(new MediaType(content[0], content[1]))
-                .headers(headers)
-                .body(request.getBody());
-        /*requestService.changeRequestBody(token, request);
-
-        return ResponseEntity.status(HttpStatus.OK).body(new StringResponse("Body of response has been successfully updated"));*/
-    }
-
-    @GetMapping(value="/mock_request/{token}")
-    public ResponseEntity returnMockRequest(@PathVariable String token, HttpServletRequest http_request) {
-        MockRequestDto request = requestService.getOneByToken(token, http_request.getMethod());
-
-        String[] content = request.getContentType().split(Pattern.quote("/"));
-
-        HttpHeaders headers = new HttpHeaders();
-        request.getHeaders().entrySet()
-                .stream()
-                .forEach(e -> headers.add(e.getKey(), e.getValue()));
-
-        return ResponseEntity.status(HttpStatus.resolve(request.getStatus()))
-                .contentType(new MediaType(content[0], content[1]))
+                .contentType(new MediaType(content[0], content[1], Charset.forName(request.getCharset())))
                 .headers(headers)
                 .body(request.getBody());
     }
+
 
     @ExceptionHandler(JsonParseException.class)
     protected ResponseEntity parseError(JsonParseException e) {

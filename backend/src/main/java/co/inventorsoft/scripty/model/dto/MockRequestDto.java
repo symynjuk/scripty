@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author A1lexen
@@ -21,6 +20,8 @@ public class MockRequestDto {
     @JsonProperty("content-type")
     @ValidContentType
     private String contentType;
+
+    private String charset;
 
     private Map<String, String> headers;
 
