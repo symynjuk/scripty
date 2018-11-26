@@ -17,6 +17,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipe} from './pipes/filter.pipe';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectEditDialogComponent } from './project-edit-dialog/project-edit-dialog.component';
+import { ProjectLikeComponent } from './project-like/project-like.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { ProjectEditDialogComponent } from './project-edit-dialog/project-edit-d
         ProjectsSearchComponent,
         FilterPipe,
         ProjectEditComponent,
-        ProjectEditDialogComponent
+        ProjectEditDialogComponent,
+        ProjectLikeComponent
     ],
     imports: [
       CommonModule,

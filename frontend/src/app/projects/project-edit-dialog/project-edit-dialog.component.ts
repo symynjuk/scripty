@@ -22,12 +22,15 @@ export class ProjectEditDialogComponent {
     });
   }
 
-  onNoClick(): void {
+  onNoClick() {
     this.dialogRef.close();
   }
 
   submit() {
     console.log(this.form.value);
+    this.project.name = this.form.value.name;
+    this.project.type = this.form.value.type;
+    this.project.isPrivate = this.form.value.isPrivate;
     this.dialogRef.close();
   }
 
