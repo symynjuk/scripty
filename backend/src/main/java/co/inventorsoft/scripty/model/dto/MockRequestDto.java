@@ -16,6 +16,8 @@ import java.util.regex.Pattern;
 public class MockRequestDto {
     private int status;
 
+    private String method;
+
     @JsonProperty("content-type")
     @ValidContentType
     private String contentType;

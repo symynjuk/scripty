@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MockRequestRepository extends JpaRepository<MockRequestEntity, Long> {
     MockRequestEntity findByToken(String token);
+
    /* @Query("select r from requests where r.token = ?1")
     MockRequestEntity getOneByToken(String token);*/
 }

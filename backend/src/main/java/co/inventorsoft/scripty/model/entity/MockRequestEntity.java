@@ -22,6 +22,9 @@ public class MockRequestEntity {
     private int status;
 
     @Column
+    private String method;
+
+    @Column
     private String contentType;
 
     @Column
