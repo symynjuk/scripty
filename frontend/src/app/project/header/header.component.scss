@@ -129,5 +129,15 @@ header {
   .mob-bars {
     display: flex;
   }
+  .profile{
+    justify-content: flex-start;
+    padding: 10px 0;
+    .dropdown-menu{
+      width: 100%;
+      ul{
+        padding: 0 40px;
+      }
+    }
+  }
 }
 
