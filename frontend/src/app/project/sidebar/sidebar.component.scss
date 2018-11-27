@@ -1,24 +1,19 @@
 @import 'variables';
 
-.sidebar{
-    width: 200px;
-    background-color: $primary-color;
-    border-right: 2px solid $border-color;
-    color: white;
-    padding: 0 10px;
+.sidebar {
+  width: 200px;
+  background-color: $primary-color;
+  border-right: 2px solid $border-color;
+  color: white;
+  padding: 0 10px;
 }
-ul{
-    list-style: none;
+
+ul {
+  list-style: none;
+  padding: 10px 0;
+  li {
     padding: 10px 0;
-    li{ padding: 10px 0}
+    cursor: pointer;
+  }
 }
-input, textarea{
-    background: transparent;
-    border: 1px solid $border-color;
-    padding: 10px;
-    margin: 10px 0;
-    color: white;
-}
-input:focus,textarea:focus{
-opacity: 0.6;
-}
+
