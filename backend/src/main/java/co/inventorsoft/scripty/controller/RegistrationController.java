@@ -2,10 +2,7 @@ package co.inventorsoft.scripty.controller;
 import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.EmailDto;
 import co.inventorsoft.scripty.model.dto.StringResponse;
-import co.inventorsoft.scripty.model.entity.User;
-import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
-import co.inventorsoft.scripty.service.EmailService;
 import co.inventorsoft.scripty.service.UserService;
 import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 
@@ -26,20 +22,16 @@ import java.io.IOException;
 public class RegistrationController {
 
     private UserService userService;
-    private EmailService emailService;
 
     @Autowired
-    public RegistrationController(UserService userService,
-                                  EmailService emailService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
-        this.emailService = emailService;
     }
 
     @PostMapping(value = "/registration", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUserAccount(@Valid @RequestBody final UserDto userDto, final HttpServletRequest request) throws MessagingException, IOException, TemplateException {
-            final User registered = userService.registerNewUserAccount(userDto);
-            emailService.sendEmailWithVerificationLink(registered, getUrl(request));
+    public void registerUserAccount(@Valid @RequestBody final UserDto userDto) throws MessagingException, IOException, TemplateException {
+          userService.registerNewUserAccount(userDto);
     }
 
     @GetMapping(value = "/registrationConfirm")
@@ -50,14 +42,8 @@ public class RegistrationController {
 
     @PostMapping(value = "/user/resendRegistrationToken", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public void resendRegistrationToken(final HttpServletRequest request, @Valid @RequestBody final EmailDto email) throws MessagingException, IOException, TemplateException {
-        final User user = userService.findByEmail(email.toString());
-        final VerificationToken newToken = userService.generateNewVerificationToken(user);
-        emailService.resendEmailWithVerificationLink(user, getUrl(request), newToken);
-    }
-
-    private String getUrl(final HttpServletRequest request) {
-        return "http://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+    public void resendRegistrationToken(@Valid @RequestBody final EmailDto email) throws MessagingException, IOException, TemplateException {
+        userService.resendRegistrationToken(email);
     }
 
     @ExceptionHandler({ApplicationException.class})

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
-import java.util.List;
 /**
  *
  * @author Symyniuk
@@ -40,9 +39,6 @@ public class User {
     @Column(nullable = false)
     boolean enabled;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn (name = "role_id")})
-    List<Role> roles;
+    @Column(nullable = false, length = 10)
+    String role;
 }

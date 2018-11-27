@@ -1,16 +1,22 @@
 package co.inventorsoft.scripty.service;
 import co.inventorsoft.scripty.exception.ApplicationException;
+import co.inventorsoft.scripty.model.dto.EmailDto;
 import co.inventorsoft.scripty.model.entity.User;
 import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.repository.RoleRepository;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
+import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.*;
@@ -22,27 +28,29 @@ import java.util.*;
 @Service
 @Transactional
 public class UserService {
-
     private RoleRepository roleRepository;
     private UserRepository userRepository;
     private VerificationTokenRepository tokenRepository;
     private PasswordEncoder passwordEncoder;
+    private EmailService emailService;
     @Autowired
     public UserService(RoleRepository roleRepository,
                        UserRepository userRepository,
                        VerificationTokenRepository tokenRepository,
-                       PasswordEncoder passwordEncoder){
+                       PasswordEncoder passwordEncoder,
+                       EmailService emailService){
         this.roleRepository = roleRepository;
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
     public User findByEmail(final String email){
-        final User user = userRepository.findByEmail(email);
-        return user;
+        return userRepository.findByEmail(email);
+
     }
 
-    public User registerNewUserAccount(final UserDto userDto) {
+    public void registerNewUserAccount(final UserDto userDto) throws MessagingException, IOException, TemplateException {
         if(findByEmail(userDto.getEmail()) != null){
             throw new ApplicationException("There is an account with that email address: " +  userDto.getEmail(), HttpStatus.BAD_REQUEST);
         }
@@ -53,9 +61,16 @@ public class UserService {
         user.setEmail(userDto.getEmail());
         user.setEnabled(false);
         user.setRoles(Arrays.asList(roleRepository.findByName("User")));
-        return userRepository.save(user);
+        userRepository.save(user);
+        final String token = UUID.randomUUID().toString();
+        createVerificationTokenForUser(user, token);
+        emailService.sendEmailWithVerificationLink(user, token);
     }
-
+    public void resendRegistrationToken(final EmailDto emailDto) throws MessagingException, IOException, TemplateException {
+        final User user = findByEmail(emailDto.toString());
+        final VerificationToken verificationToken = generateNewVerificationToken(user);
+        emailService.resendEmailWithVerificationLink(user, verificationToken);
+    }
     public void validateVerificationToken(final String token) {
         Optional<VerificationToken> verificationTokenOptional = Optional.ofNullable(tokenRepository.findByToken(token));
         if(!verificationTokenOptional.isPresent()){
@@ -77,15 +92,9 @@ public class UserService {
         tokenRepository.save(myToken);
     }
     public VerificationToken generateNewVerificationToken(final User user) {
-        Optional<VerificationToken> optionalToken = Optional.ofNullable(tokenRepository.findByUser(user));
-        if(!optionalToken.isPresent()){
-            throw new ApplicationException("Success", HttpStatus.OK);
-        }else {
-            VerificationToken token = optionalToken.get();
-            token.updateToken(UUID.randomUUID()
-                    .toString());
-            token = tokenRepository.save(token);
-            return token;
-        }
+        return Optional.ofNullable(tokenRepository.findByUser(user))
+                .map(token -> token.updateToken(UUID.randomUUID().toString()))
+                .map(tokenRepository::save)
+                .orElseThrow(() -> new ApplicationException("Token not found", HttpStatus.OK));
     }
 }

@@ -15,7 +15,7 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class VerificationToken {
-    static final Long EXPIRATION = 60L;
+    static final Long EXPIRATION = 1L;
     static final Long TO_MINUTES = 60000L;
 
     @Id
@@ -40,11 +40,11 @@ public class VerificationToken {
     }
 
     private Instant calculateExpiryDate(final Long expiryTimeInMinutes) {
-        Instant instant = Clock.systemDefaultZone().instant().plusMillis(expiryTimeInMinutes);
-        return instant;
+        return Clock.systemDefaultZone().instant().plusMillis(expiryTimeInMinutes);
     }
-    public void updateToken(final String token) {
+    public VerificationToken updateToken(final String token) {
         this.token = token;
         this.expiryDate = calculateExpiryDate(EXPIRATION * TO_MINUTES);
+        return this;
     }
 }
