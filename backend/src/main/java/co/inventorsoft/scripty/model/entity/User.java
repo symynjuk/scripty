@@ -1,5 +1,4 @@
 package co.inventorsoft.scripty.model.entity;
-
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
