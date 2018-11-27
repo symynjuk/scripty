@@ -7,12 +7,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
     authorized: boolean;
+    open: boolean;
 
     constructor() {
     }
 
     ngOnInit() {
         this.authorized = false;
+        this.open = false;
     }
 
     singIn() {
@@ -22,5 +24,10 @@ export class HeaderComponent implements OnInit {
     logOut() {
         this.authorized = false;
     }
+
+    openNav() {
+        this.open = !this.open;
+    }
+
 
 }
