@@ -15,7 +15,7 @@ import java.time.Instant;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class VerificationToken {
-    static final Long EXPIRATION = 1L;
+    static final Long EXPIRATION = 60L;
     static final Long TO_MINUTES = 60000L;
 
     @Id

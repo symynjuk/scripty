@@ -1,18 +1,11 @@
 package co.inventorsoft.scripty.controller;
-import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.EmailDto;
-import co.inventorsoft.scripty.model.dto.StringResponse;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.service.UserService;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.mail.MessagingException;
 import javax.validation.Valid;
-import java.io.IOException;
-
 /**
  *
  * @author  Symyniuk
@@ -30,7 +23,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/registration", consumes = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public void registerUserAccount(@Valid @RequestBody final UserDto userDto) throws MessagingException, IOException, TemplateException {
+    public void registerUserAccount(@Valid @RequestBody final UserDto userDto){
           userService.registerNewUserAccount(userDto);
     }
 
@@ -42,13 +35,7 @@ public class RegistrationController {
 
     @PostMapping(value = "/user/resendRegistrationToken", consumes = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public void resendRegistrationToken(@Valid @RequestBody final EmailDto email) throws MessagingException, IOException, TemplateException {
+    public void resendRegistrationToken(@Valid @RequestBody final EmailDto email){
         userService.resendRegistrationToken(email);
-    }
-
-    @ExceptionHandler({ApplicationException.class})
-    public ResponseEntity<Object> handleBadRequestException(final ApplicationException exception){
-        return ResponseEntity.status(exception.getCode())
-                .body(new StringResponse(exception.getMessage()));
     }
 }

@@ -24,29 +24,42 @@ import java.util.Map;
  *
  */
 @Service
-public class EmailService {
+public class EmailServiceImpl implements EmailService{
     @Value("${prefix.link}")
     private String prefixUrl;
 
     private JavaMailSender javaMailSender;
     private Configuration freemarkerConfig;
     @Autowired
-    public EmailService(JavaMailSender javaMailSender,
-                        Configuration freemarkerConfig) {
+    public EmailServiceImpl(JavaMailSender javaMailSender,
+                            Configuration freemarkerConfig) {
         this.javaMailSender = javaMailSender;
         this.freemarkerConfig = freemarkerConfig;
     }
-    public void sendEmailWithVerificationLink(final User user,
-                                              final String token) throws MessagingException, IOException, TemplateException {
 
-        final MimeMessage mimeMessage = constructMimeMessage(user, token, prefixUrl);
+    public void sendEmailWithVerificationLink(final User user,
+                                              final String token){
+
+        MimeMessage mimeMessage = null;
+        try {
+            mimeMessage = constructMimeMessage(user, token, prefixUrl);
+        } catch (MessagingException | IOException | TemplateException e){
+            e.printStackTrace();
+        }
         javaMailSender.send(mimeMessage);
     }
+
     public void resendEmailWithVerificationLink(final User user,
-                                                final VerificationToken token) throws MessagingException, IOException, TemplateException {
-        final MimeMessage mimeMessage = constructMimeMessage(user, token.getToken(), prefixUrl);
+                                                final VerificationToken token){
+        MimeMessage mimeMessage = null;
+        try {
+            mimeMessage = constructMimeMessage(user, token.getToken(), prefixUrl);
+        } catch (MessagingException | IOException | TemplateException e){
+            e.printStackTrace();
+        }
         javaMailSender.send(mimeMessage);
     }
+
     private MimeMessage constructMimeMessage(final User user,
                                              final String token,
                                              final String prefixUrl) throws MessagingException, IOException, TemplateException {

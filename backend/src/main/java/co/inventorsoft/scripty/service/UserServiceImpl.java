@@ -6,14 +6,11 @@ import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
-import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.mail.MessagingException;
-import java.io.IOException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.*;
@@ -24,28 +21,32 @@ import java.util.*;
  */
 @Service
 @Transactional
-public class UserService {
+public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     private VerificationTokenRepository tokenRepository;
     private PasswordEncoder passwordEncoder;
     private EmailService emailService;
     @Autowired
-    public UserService(UserRepository userRepository,
-                       VerificationTokenRepository tokenRepository,
-                       PasswordEncoder passwordEncoder,
-                       EmailService emailService){
+    public UserServiceImpl(UserRepository userRepository,
+                           VerificationTokenRepository tokenRepository,
+                           PasswordEncoder passwordEncoder,
+                           EmailService emailService){
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
     }
-    public Optional<User> findByEmail(final String email){
-        return userRepository.findByEmail(email);
 
+    public User findByEmail(final String email){
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if(!userOptional.isPresent()){
+            throw new ApplicationException("Email is not found!", HttpStatus.BAD_REQUEST);
+        }
+        return userOptional.get();
     }
 
-    public void registerNewUserAccount(final UserDto userDto) throws MessagingException, IOException, TemplateException {
-        if(findByEmail(userDto.getEmail()).isPresent()){
+    public void registerNewUserAccount(final UserDto userDto){
+        if(userRepository.findByEmail(userDto.getEmail()).isPresent()){
             throw new ApplicationException("There is an account with that email address: " +  userDto.getEmail(), HttpStatus.BAD_REQUEST);
         }
         final User user = new User();
@@ -60,14 +61,16 @@ public class UserService {
         createVerificationTokenForUser(user, token);
         emailService.sendEmailWithVerificationLink(user, token);
     }
-    public void resendRegistrationToken(final EmailDto emailDto) throws MessagingException, IOException, TemplateException {
-        if(!findByEmail(emailDto.toString()).isPresent()){
-            throw new ApplicationException("First please complete the registration", HttpStatus.OK);
+
+    public void resendRegistrationToken(final EmailDto emailDto){
+        if(!userRepository.findByEmail(emailDto.toString()).isPresent()){
+            throw new ApplicationException("Please complete the registration first!", HttpStatus.OK);
         }
-        final User user = findByEmail(emailDto.toString()).get();
+        final User user = findByEmail(emailDto.toString());
         final VerificationToken verificationToken = generateNewVerificationToken(user);
         emailService.resendEmailWithVerificationLink(user, verificationToken);
     }
+
     public void validateVerificationToken(final String token) {
         Optional<VerificationToken> verificationTokenOptional =tokenRepository.findByToken(token);
         if(!verificationTokenOptional.isPresent()){
@@ -84,20 +87,16 @@ public class UserService {
         userRepository.save(user);
         tokenRepository.delete(verificationToken);
     }
-    public void createVerificationTokenForUser(final User user, final String token) {
+
+    private void createVerificationTokenForUser(final User user, final String token) {
         final VerificationToken myToken = new VerificationToken(token, user);
         tokenRepository.save(myToken);
     }
-    public VerificationToken generateNewVerificationToken(final User user) {
-//        return Optional.ofNullable(tokenRepository.findByUser(user))
-//                .map(token -> token.get().updateToken(UUID.randomUUID().toString()))
-//                .map(tokenRepository::save)
-//                .orElseThrow(() -> new ApplicationException("Token not found", HttpStatus.OK));
-      return tokenRepository.findByUser(user)
+
+    private VerificationToken generateNewVerificationToken(final User user) {
+        return tokenRepository.findByUser(user)
                .map(token -> token.updateToken(UUID.randomUUID().toString()))
                .map(tokenRepository::save)
                .orElseThrow(()-> new ApplicationException("Token not found", HttpStatus.OK));
-
-
     }
 }
