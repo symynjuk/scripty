@@ -21,7 +21,7 @@ public class MockRequestService {
     private enum Methods {
         POST("post"),
         PUT("put"),
-        GET("put");
+        GET("get");
 
         private String method;
 
@@ -36,8 +36,9 @@ public class MockRequestService {
 
     private enum ContentTypes {
         APPLICATION_JSON("application/json"),
+        APPLICATION_XML("application/xml"),
         TEXT_PLAIN("text/plain"),
-        APPLICATION_XML("application/xml");
+        TEXT_HTML("text/html");
 
         private String type;
 
@@ -60,7 +61,7 @@ public class MockRequestService {
         MockRequestEntity request = new MockRequestEntity();
 
         MediaType.parseMediaType(requestDto.getContentType());
-        if (requestDto.getStatus() < 100 ||  requestDto.getStatus() > 599) throw new ApplicationException("Invalid Status Code input!", HttpStatus.BAD_REQUEST);
+        if ((requestDto.getStatus() < 100 ||  requestDto.getStatus() > 599)) throw new ApplicationException("Invalid Status Code input!", HttpStatus.BAD_REQUEST);
         if (!Charset.isSupported(requestDto.getCharset()))  throw new ApplicationException("Invalid Charset input!", HttpStatus.BAD_REQUEST);
         if (!Methods.contains(requestDto.getMethod())) throw new ApplicationException("'" + requestDto.getMethod() + "' method is not allowed. Try using another method.", HttpStatus.BAD_REQUEST);
         if (!ContentTypes.contains(requestDto.getContentType())) throw new ApplicationException("'" + requestDto.getContentType() + "' ContentType is not allowed. Try using another ContentType.", HttpStatus.BAD_REQUEST);

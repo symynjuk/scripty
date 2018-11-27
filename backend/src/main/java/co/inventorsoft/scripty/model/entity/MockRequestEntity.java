@@ -30,7 +30,6 @@ public class MockRequestEntity {
     private String contentType;
 
     @Column
-    @ColumnDefault("utf-8")
     private String charset;
 
     @Column

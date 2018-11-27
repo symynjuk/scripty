@@ -5,6 +5,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Map;
 
 /**
@@ -15,15 +19,17 @@ import java.util.Map;
 @Setter
 @ApiModel(value="Mock Request")
 public class MockRequestDto {
-    @ApiModelProperty(value = "Returned status")
-    private int status;
+    @ApiModelProperty(value = "Returned status. Default value '200'.")
+    private int status = 200;
 
-    @ApiModelProperty(value = "Method of returned response", allowableValues = "POST, GET, PUT")
-    private String method;
+    @ApiModelProperty(value = "Method of returned response. Default value 'get'", allowableValues = "POST, GET, PUT")
+    @Pattern(regexp="[A-Za-z]*", message = "Only letters are allowed")
+    private String method = "get";
 
-    @ApiModelProperty(value = "ContentType of returned response", allowableValues = "string/string")
+    @ApiModelProperty(value = "ContentType of returned response. Default value'text/plain'", allowableValues = "string/string")
     @JsonProperty("content-type")
-    private String contentType;
+    @Pattern(regexp="[A-Za-z]*/[A-Za-z]*", message = "Doesn't fit the pattern 'string/string'")
+    private String contentType = "text/plain";
 
     @ApiModelProperty(value = "Charset of returned response. Default value 'utf-8'", allowableValues = "utf-8, iso-8859-1, utf-16")
     private String charset = "utf-8";
