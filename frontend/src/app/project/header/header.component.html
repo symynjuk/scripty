@@ -2,8 +2,7 @@
     <a href="/" class="logo">
         <img src="../../assets/img/icon.png" alt="logo">
     </a>
-
-    <nav ngClass="open">
+    <nav [ngClass]=" isOpen? 'open':''">
         <ul class="action-cont">
             <li><i class="fas fa-caret-right"></i>Run</li>
             <li><i class="fas fa-cloud-upload-alt"></i> Save</li>
@@ -25,7 +24,7 @@
             </div>
         </div>
         <a href="#" *ngIf="!authorized" class="sign-in" (click)="singIn();">Sign in</a>
-    </nav ngClass=open>
+    </nav>
     <div class="mob-bars" (click)="openNav()">
         <i class="fas fa-bars"></i>
     </div>
