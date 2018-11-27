@@ -1,45 +1,51 @@
 package co.inventorsoft.scripty.controller;
 
-import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.MockRequestDto;
 import co.inventorsoft.scripty.model.dto.StringResponse;
 import co.inventorsoft.scripty.service.MockRequestService;
 import com.fasterxml.jackson.core.JsonParseException;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.InvalidMimeTypeException;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.nio.charset.Charset;
-import java.util.Map;
-import java.util.UUID;
+import java.nio.charset.IllegalCharsetNameException;
 import java.util.regex.Pattern;
 
 /**
  * @author A1lexen
  */
-//TODO Create controller for post mock request
+
+@Api(description = "Operations with mock requests")
 @RestController
 public class MockRequestController {
     @Autowired
     MockRequestService requestService;
 
+    @Autowired
+    Environment environment;
+
+    @ApiOperation(value = "Create mock response with specified parameters")
     @PostMapping(value="/mock_request")
-    public ResponseEntity createMockRequst(@Valid @RequestBody MockRequestDto request_dto, HttpServletRequest request) {
-        String token = UUID.randomUUID().toString();
-        requestService.createNewRequest(request_dto, token);
+    public ResponseEntity createMockRequst(@Valid @RequestBody MockRequestDto requestDto) {
+        String token = requestService.createNewRequest(requestDto);
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new StringResponse(request.getHeader("Host") + "/mock_request/" + token));
+                .body(new StringResponse(environment.getProperty("prefix.link") + "mock_request/" + token));
     }
 
+    @ApiOperation(value = "Response on created request with specified method")
     @RequestMapping(value="/mock_request/{token}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
-    public ResponseEntity putMockRequest(@PathVariable String token, HttpServletRequest http_request) {
-        MockRequestDto request = requestService.getOneByToken(token, http_request.getMethod());
+    public ResponseEntity putMockRequest(@PathVariable String token, HttpServletRequest httpRequest) {
+        MockRequestDto request = requestService.getOneByToken(token, httpRequest.getMethod());
 
         String[] content = request.getContentType().split(Pattern.quote("/"));
 
@@ -54,17 +60,17 @@ public class MockRequestController {
                 .body(request.getBody());
     }
 
-
-    @ExceptionHandler(JsonParseException.class)
-    protected ResponseEntity parseError(JsonParseException e) {
+    @ExceptionHandler({JsonParseException.class, InvalidMimeTypeException.class})
+    protected ResponseEntity parseError(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(e.getMessage());
-    }
-
-    @ExceptionHandler(ApplicationException.class)
-    protected ResponseEntity invalidInput(ApplicationException e) {
-        return ResponseEntity.status(e.getCode())
                 .body(new StringResponse(e.getMessage()));
     }
 
+    @ExceptionHandler(IllegalCharsetNameException.class)
+    protected ResponseEntity charsetError(IllegalCharsetNameException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new StringResponse("Illegal charset name: '" + e.getMessage() + "'"));
+    }
 }
+
+

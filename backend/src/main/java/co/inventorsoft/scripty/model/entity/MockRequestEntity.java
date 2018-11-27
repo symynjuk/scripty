@@ -2,6 +2,8 @@ package co.inventorsoft.scripty.model.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class MockRequestEntity {
     private String contentType;
 
     @Column
+    @ColumnDefault("utf-8")
     private String charset;
 
     @Column
