@@ -40,7 +40,7 @@ public class MockRequestEntity {
     private Map<String, String> headers;
 
     @Column(columnDefinition = "TEXT")
-    String body;
+    private String body;
 
 }
 

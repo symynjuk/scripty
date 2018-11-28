@@ -6,7 +6,7 @@ import co.inventorsoft.scripty.service.MockRequestService;
 import com.fasterxml.jackson.core.JsonParseException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,19 +27,22 @@ import java.util.regex.Pattern;
 @Api(description = "Operations with mock requests")
 @RestController
 public class MockRequestController {
-    @Autowired
+    @Value("${prefix.link}")
+    String link;
+
     MockRequestService requestService;
 
     @Autowired
-    Environment environment;
+    MockRequestController(MockRequestService service){
+        requestService = service;
+    }
 
     @ApiOperation(value = "Create mock response with specified parameters")
-    @PostMapping(value="/mock_request")
+    @PostMapping(value="/mock-requests")
     public ResponseEntity createMockRequst(@Valid @RequestBody MockRequestDto requestDto) {
         String token = requestService.createNewRequest(requestDto);
-
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new StringResponse(environment.getProperty("prefix.link") + "mock_request/" + token));
+                .body(new StringResponse( link + "mock_request/" + token));
     }
 
     @ApiOperation(value = "Response on created request with specified method")

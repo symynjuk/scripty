@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MockRequestRepository extends JpaRepository<MockRequestEntity, Long> {
-    MockRequestEntity findByToken(String token);
+    MockRequestEntity findByTokenAndMethod(String token, String method);
 }
