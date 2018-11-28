@@ -19,6 +19,10 @@ html {
   }
 }
 
+img {
+  max-width: 100%;
+}
+
 input, textarea {
   background: transparent;
   border: 1px solid $border-color;
