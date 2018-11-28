@@ -1,9 +1,40 @@
 /* Reset CSS */
-@import "assets/scss/_reset-src.scss";
+@import "reset-src";
 
-body {
-  all: unset;
-  overflow:hidden;
+/* You can add global styles to this file, and also import other style files */
+@import "variables";
+html {
+  height: 100%;
+  body {
+    all: unset;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    height: inherit;
+    margin: 0;
+    a {
+      text-decoration: none;
+      font-family: 'Roboto', sans-serif;
+      font-size: 16px;
+    }
   }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+}
+
+img {
+  max-width: 100%;
+}
+
+input, textarea {
+  background: transparent;
+  border: 1px solid $border-color;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px 0;
+  color: white;
+}
+
+input:focus, textarea:focus {
+  opacity: 0.6;
+}
