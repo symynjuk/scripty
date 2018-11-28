@@ -1,11 +1,18 @@
+a {
+  text-decoration: none;
+}
 header {
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
   background-color: #212529;
   .header {
+    &__logo {
+      color: #fff;
+    }
     &-menu {
       display: flex;
+      align-items: center;
       &__item {
         padding-left: 15px;
       }
