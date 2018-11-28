@@ -1,19 +1,21 @@
-<header>
+<div class="navbar">
+  <div class="navbar-header">
     <a class="header__logo" href="">scriptyAdmin</a>
+    <a (click)="toggleSidebar()" class="header__toggle-btn"><i
+            [ngClass]="{
+            	  'fa-arrow-right': sidebarIsCollapsed,
+            	  'fa-arrow-left': !sidebarIsCollapsed
+            	   }" class="fas "></i></a>
+  </div>
     <ul class="header-menu">
-      <li class="header-menu__item">
-        <a class="header-menu__link" href="">
-          <i class="fas fa-search"></i>
-        </a>
-      </li>
       <li class="header-menu__item">
         <a class="header-menu__link" href="">
           <mat-icon matBadge="5" matBadgePosition="above after"><i class="fas fa-bell"></i>
           </mat-icon>
         </a>
       </li>
-      <li class="header-menu__item"><a class="header-menu__link"  href="">Users</a></li>
-      <li class="header-menu__item"><a class="header-menu__link"  href="">Logout</a></li>
+      <li class="header-menu__item"><a class="header-menu__link"  href=""><span>Users</span><i class="fas fa-users"></i></a></li>
+      <li class="header-menu__item"><a class="header-menu__link"  href=""><span>Logout</span><i class="fas fa-sign-out-alt"></i></a></li>
     </ul>
 
-</header>
+</div>

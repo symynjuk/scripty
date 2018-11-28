@@ -1,8 +1,12 @@
 <app-admin-header></app-admin-header>
 <div class="page">
-  <app-admin-sidebar></app-admin-sidebar>
+  <app-admin-sidebar [ngClass]="{
+  'sidebar-hidden': sidebarIsCollapsed }">
+  </app-admin-sidebar>
   <div class="inner-container">
-    <h2 class="content-title">Dashboard</h2>
+    <div class="page-header">
+      <h2 class="page-header__title">Dashboard</h2>
+    </div>
     <app-admin-content></app-admin-content>
     <app-admin-footer></app-admin-footer>
   </div>

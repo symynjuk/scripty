@@ -1,7 +1,8 @@
 a {
   text-decoration: none;
+  cursor: pointer;
 }
-header {
+.navbar {
   display: flex;
   justify-content: space-between;
   padding: 15px 30px;
@@ -9,6 +10,12 @@ header {
   .header {
     &__logo {
       color: #fff;
+    }
+    &__toggle-btn {
+      margin-left: 15px;
+      color: #fff;
+      font-size: 18px;
+      transition: all 0.3s cubic-bezier(0.81, -0.33, 0.345, 1.375);
     }
     &-menu {
       display: flex;
@@ -20,6 +27,23 @@ header {
         font-family: Roboto, "Helvetica Neue", sans-serif;
         color: white;
         text-decoration: none;
+        & > span {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 320px) and (max-width: 480px){
+  .header {
+    &-menu {
+      &__link {
+        & > span {
+          display: none;
+        }
+         & > i {
+          font-size: 22px;
+        }
       }
     }
   }
