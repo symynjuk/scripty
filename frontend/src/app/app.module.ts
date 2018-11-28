@@ -3,15 +3,19 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
-import { HeaderComponent } from './header/header.component';
-import { MainComponent } from './main/main.component';
+import { SidebarComponent } from './layouts/home/sidebar/sidebar.component';
+import { HeaderComponent } from './layouts/home/header/header.component';
+import { MainComponent } from './layouts/home/main/main.component';
+/*Material Components*/
+import {MaterialModule} from './material-module';
+/*Animations*/
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminPageComponent } from './components/layouts/admin/admin-page/admin-page.component';
-import { AdminFooterComponent } from './components/layouts/admin/admin-page/footer/footer.component';
-import { AdminHeaderComponent} from './components/layouts/admin/admin-page/header/header.component';
-import { AdminSidebarComponent} from './components/layouts/admin/admin-page/sidebar/sidebar.component';
-import { HomeComponent } from './components/layouts/home/home.component';
+/*Admin Layout*/
+import { AdminPageComponent } from './layouts/admin/admin-page/admin-page.component';
+import { AdminFooterComponent } from './layouts/admin/admin-page/footer/footer.component';
+import { AdminHeaderComponent} from './layouts/admin/admin-page/header/header.component';
+import { AdminSidebarComponent} from './layouts/admin/admin-page/sidebar/sidebar.component';
+import { HomeComponent } from './layouts/home/home.component';
 
 
 @NgModule({
@@ -30,6 +34,7 @@ import { HomeComponent } from './components/layouts/home/home.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
