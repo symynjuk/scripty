@@ -6,23 +6,23 @@ import {Component, OnInit} from '@angular/core';
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-    authorized: boolean;
+    isAuthorized: boolean;
     isOpen: boolean;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.authorized = false;
+        this.isAuthorized = false;
         this.isOpen = false;
     }
 
-    singIn() {
-        this.authorized = true;
+    signIn() {
+        this.isAuthorized = true;
     }
 
     logOut() {
-        this.authorized = false;
+        this.isAuthorized = false;
     }
 
     openNav() {

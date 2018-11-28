@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
+
 html {
   height: 100%;
   body {
@@ -8,26 +9,53 @@ html {
     font-size: 16px;
     height: inherit;
     margin: 0;
+    app-projects {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .wrap {
+        display: flex;
+        height: 100%;
+        app-sidebar {
+          display: flex;
+          @media (max-width: 768px) {
+            display: none;
+          }
+        }
+        main {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          box-sizing: border-box;
+          width: 100%;
+          app-project {
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+
     a {
       text-decoration: none;
       font-family: 'Roboto', sans-serif;
       font-size: 16px;
     }
+
+    input, textarea {
+      background: transparent;
+      border: 1px solid $border-color;
+      font-family: 'Roboto', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+      font-size: 16px;
+      padding: 10px;
+      margin: 10px 0;
+      color: white;
+    }
+
+    input:focus, textarea:focus {
+      opacity: 0.6;
+    }
   }
-}
-
-input, textarea {
-  background: transparent;
-  border: 1px solid $border-color;
-  font-family: 'Roboto', sans-serif;
-  width: 100%;
-  box-sizing: border-box;
-  font-size: 16px;
-  padding: 10px;
-  margin: 10px 0;
-  color: white;
-}
-
-input:focus, textarea:focus {
-  opacity: 0.6;
 }
