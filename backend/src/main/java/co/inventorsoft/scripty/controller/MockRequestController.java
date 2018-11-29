@@ -42,11 +42,11 @@ public class MockRequestController {
     public ResponseEntity createMockRequst(@Valid @RequestBody MockRequestDto requestDto) {
         String token = requestService.createNewRequest(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new StringResponse( link + "mock_request/" + token));
+                .body(new StringResponse( link + "mock-requests/" + token));
     }
 
     @ApiOperation(value = "Response on created request with specified method")
-    @RequestMapping(value="/mock_request/{token}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
+    @RequestMapping(value="/mock-requests/{token}", method = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity putMockRequest(@PathVariable String token, HttpServletRequest httpRequest) {
         MockRequestDto request = requestService.getOneByToken(token, httpRequest.getMethod());
 
