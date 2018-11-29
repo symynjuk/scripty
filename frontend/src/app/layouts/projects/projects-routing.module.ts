@@ -9,10 +9,14 @@ const projectRoutes: Routes = [
     {
         path: '',
         component: ProjectsComponent,
-
         children: [
             {
-                path: '', component: ProjectComponent
+                path: '',
+                component: ProjectComponent
+            },
+            {
+                path: 'project',
+                component: ProjectComponent
             }
         ]
     }

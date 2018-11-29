@@ -1,5 +1,5 @@
 <header>
-    <a href="#" class="logo">
+    <a  class="logo">
         <img src="../../assets/img/icon.png" alt="logo">
     </a>
     <nav [ngClass]="isOpen ? 'open':''">
@@ -23,7 +23,7 @@
 
             </div>
         </div>
-        <a href="#" *ngIf="!isAuthorized" class="sign-in" (click)="signIn()">Sign in</a>
+        <a *ngIf="!isAuthorized" class="sign-in" (click)="signIn()">Sign in</a>
     </nav>
     <div class="mob-bars" (click)="openNav()">
         <i class="fas fa-bars"></i>
