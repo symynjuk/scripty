@@ -31,11 +31,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http
 			.requestMatchers().and().authorizeRequests()
-			.antMatchers("/swagger*").permitAll()
-			.antMatchers("/test/anybody", "/test/").permitAll()
-			.antMatchers("/test/user", "/test/admin" ).authenticated()
-			.antMatchers("/test/admin/*").access("hasRole('ROLE_ADMIN')")
-			.antMatchers("/test/user/*").access("hasRole('ROLE_USER')")
+			.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
+			.antMatchers("/registration**", "/user/resendRegistrationToken").permitAll()
+			.antMatchers("/test/anybody", "/test").permitAll()
 			.anyRequest().authenticated();
 	}
 }

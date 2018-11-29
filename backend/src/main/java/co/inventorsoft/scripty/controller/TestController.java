@@ -5,25 +5,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.inventorsoft.scripty.model.dto.StringResponse;
+
 /**
- * Created by lzabidovsky on 15.11.2018.
+ * @author lzabidovsky 
  */
 @RestController
 @RequestMapping(value = "/test")
 public class TestController {
 	
-	public static class StringResponse {
-		private String response;
-		public StringResponse(String response) {
-			this.response = response;
-		}
-		public String getResponse() {
-			return response;
-		}
-	}
-
     @GetMapping(value = "/user", produces = "application/json")
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     public StringResponse testUser() {
         return new StringResponse("User is ok");
     }

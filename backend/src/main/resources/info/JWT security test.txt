@@ -1,23 +1,23 @@
 JWT security test
 
-User("user").password("jwtpass").roles("USER")
-User("admin").password("jwtpass").roles("USER", "ADMIN")
+User("user@test.co").password("jwtpass").roles("USER")
+User("admin@test.co").password("jwtpass").roles("ADMIN")
 
 client_id: jwtclientid
 client_secret: jwtClientSecret
 
 resource accessible to all authenticated users: http://localhost:8080/test/user
-resource accessible to only an admin user: http://localhost:8080/test/admin
+resource accessible to only an admin role: http://localhost:8080/test/admin
 resource accessible to anybody: http://localhost:8080/test/anybody
 
 
 1) Generate an access token
 curl -X POST -H 'Content-Type: application/x-www-form-urlencoded' \
-  -d 'username=user&password=jwtpass&grant_type=password&client_id=jwtclientid&client_secret=jwtClientSecret' \
+  -d 'username=user@test.co&password=jwtpass&grant_type=password&client_id=jwtclientid&client_secret=jwtClientSecret' \
   'http://localhost:8080/oauth/token'
 or
 curl -X POST -H 'Content-Type: application/json' \
-  -d '{ "username":"admin", "password":"jwtpass", "grant_type":"password", "client_id":"jwtclientid", "client_secret":"jwtClientSecret" }' \
+  -d '{ "username":"admin@test.co", "password":"jwtpass", "grant_type":"password", "client_id":"jwtclientid", "client_secret":"jwtClientSecret" }' \
   'http://localhost:8080/oauth/token'
   
 JWT Debugger https://jwt.io/#debugger-io
