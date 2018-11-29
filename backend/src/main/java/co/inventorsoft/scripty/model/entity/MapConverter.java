@@ -1,8 +1,11 @@
 package co.inventorsoft.scripty.model.entity;
 
+import co.inventorsoft.scripty.exception.ApplicationException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpStatus;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import java.io.IOException;
@@ -23,7 +26,7 @@ public class MapConverter implements AttributeConverter<Map<String, String>, Str
         try {
             value = mapper.writeValueAsString(data);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            throw new ApplicationException("Write data into database error.\n" + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
         return value;
     }
@@ -35,7 +38,7 @@ public class MapConverter implements AttributeConverter<Map<String, String>, Str
         try {
             mapValue = mapper.readValue(data, typeRef);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ApplicationException("Unavailable to read data from database.\n" + e.getMessage(), HttpStatus.SERVICE_UNAVAILABLE);
         }
         return mapValue;
     }
