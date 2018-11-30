@@ -5,19 +5,16 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsListComponent } from './projects-list/projects-list.component';
 import { ProjectsSearchComponent } from './projects-search/projects-search.component';
 import {
-  MatButtonModule, MatCardModule, MatCheckboxModule, MatDialogModule,
-  MatFormFieldModule,
-  MatIconModule, MatInputModule,
-  MatMenuModule,
-  MatProgressSpinnerModule, MatSelectModule, MatSortModule,
-  MatTableModule,
-  MatToolbarModule
+  MatButtonModule, MatCheckboxModule, MatDialogModule,
+  MatFormFieldModule, MatInputModule, MatSelectModule, MatSortModule,
+  MatTableModule
 } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FilterPipe} from './pipes/filter.pipe';
 import { ProjectEditComponent } from './project-edit/project-edit.component';
 import { ProjectEditDialogComponent } from './project-edit-dialog/project-edit-dialog.component';
 import { ProjectLikeComponent } from './project-like/project-like.component';
+import { ProjectCreateDialogComponent } from './project-create-dialog/project-create-dialog.component';
 
 @NgModule({
     declarations: [
@@ -27,18 +24,14 @@ import { ProjectLikeComponent } from './project-like/project-like.component';
         FilterPipe,
         ProjectEditComponent,
         ProjectEditDialogComponent,
-        ProjectLikeComponent
+        ProjectLikeComponent,
+        ProjectCreateDialogComponent
     ],
     imports: [
       CommonModule,
       FormsModule,
       ReactiveFormsModule,
       ProjectsRoutingModule,
-      MatCardModule,
-      MatProgressSpinnerModule,
-      MatMenuModule,
-      MatIconModule,
-      MatToolbarModule,
       MatButtonModule,
       MatFormFieldModule,
       MatInputModule,
@@ -49,7 +42,8 @@ import { ProjectLikeComponent } from './project-like/project-like.component';
       MatDialogModule
     ],
   entryComponents: [
-    ProjectEditDialogComponent
+    ProjectEditDialogComponent,
+    ProjectCreateDialogComponent
   ]
 })
 export class ProjectsModule {}

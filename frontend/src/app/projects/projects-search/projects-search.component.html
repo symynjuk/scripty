@@ -3,4 +3,5 @@
     <input [(ngModel)]="searchStr" type="text" (ngModelChange)="onChange(searchStr)" matInput placeholder="Search...">
   </mat-form-field>
      <mat-checkbox [(ngModel)]="onlyMyProjects" (ngModelChange)="showMyProjects(onlyMyProjects)" class="search__checkbox" color="primary">Only my projects</mat-checkbox>
+     <button mat-stroked-button color="primary" type="button" (click)="openDialog()">Create project</button>
  </div>

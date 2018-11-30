@@ -1,4 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {ProjectEditDialogComponent} from '../project-edit-dialog/project-edit-dialog.component';
+import {MatDialog} from '@angular/material';
+import {ProjectCreateDialogComponent} from '../project-create-dialog/project-create-dialog.component';
 
 @Component({
   selector: 'app-projects-search',
@@ -19,9 +22,13 @@ export class ProjectsSearchComponent implements OnInit {
     this.myProjectsCheck.emit(this.onlyMyProjects);
   }
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+  }
+
+  openDialog() {
+    this.dialog.open(ProjectCreateDialogComponent, { });
   }
 
 }
