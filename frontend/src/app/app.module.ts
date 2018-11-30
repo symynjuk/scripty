@@ -10,13 +10,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ProjectsModule} from './projects/projects.module';
+import {AdminTicketModule} from './admin-ticket/admin-ticket.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     SidebarComponent,
     HeaderComponent,
-    MainComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +26,8 @@ import {ProjectsModule} from './projects/projects.module';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ProjectsModule
+    ProjectsModule,
+    AdminTicketModule
   ],
   providers: [],
   bootstrap: [AppComponent]
