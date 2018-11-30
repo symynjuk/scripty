@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
     selector: 'app-header',
@@ -8,6 +8,7 @@ import {Component, OnInit} from '@angular/core';
 export class HeaderComponent implements OnInit {
     isAuthorized: boolean;
     isOpen: boolean;
+    @Output() sidebarIsOpen = new EventEmitter<boolean>();
 
     constructor() {
     }
@@ -15,6 +16,7 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.isAuthorized = false;
         this.isOpen = false;
+        this.openNav();
     }
 
     signIn() {
@@ -27,7 +29,6 @@ export class HeaderComponent implements OnInit {
 
     openNav() {
         this.isOpen = !this.isOpen;
+        this.sidebarIsOpen.emit(this.isOpen);
     }
-
-
 }

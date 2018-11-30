@@ -1,43 +1,26 @@
 @import 'variables';
 
 header {
-  padding: 0 15px;
   background: $primary-color;
   border-bottom: 2px solid $border-color;
-  display: flex;
-  justify-content: flex-start;
-  nav {
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 1;
+  .login {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
   }
-  nav {
-    & > ul {
-      list-style: none;
-      display: flex;
-      align-items: center;
-      padding: 0 5px;
-      li {
-        cursor: pointer;
-        color: white;
-        padding: 0 5px;
-        font-weight: bold;
-        i {
-          padding: 0 5px;
-        }
-      }
-    }
-  }
-  .action-cont {
-    flex-grow: 1;
-  }
-  .sign-in {
+  .logo {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5em;
     color: white;
   }
-  .logo, .sign-in {
-    align-self: center;
-    font-weight: bold;
-    text-transform: none;
+  .mob-bars {
+    .material-icons {
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      cursor: pointer;
+    }
   }
 }
 
@@ -58,17 +41,15 @@ header {
     }
   }
   .nickname {
-    color: #fff;
     font-weight: bold;
   }
   .dropdown-menu {
     background: $primary-color;
-    color: #fff;
     visibility: hidden;
     z-index: -5;
     position: absolute;
     top: 100%;
-    right: 0;
+    right: -15px;
     width: 150px;
     border: 2px solid $border-color;
     li {
@@ -86,62 +67,20 @@ header {
   }
 }
 
-.mob-bars {
-  font-weight: bold;
-  color: white;
-  font-size: 25px;
-  display: none;
-  align-self: center;
-  cursor: pointer;
-}
+
 
 @media (max-width: 768px) {
   header {
     position: relative;
     justify-content: space-between;
-    nav {
-      background: $primary-color;
-      visibility: hidden;
-      z-index: -5;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      width: 100%;
-      box-sizing: border-box;
-      border: 1px solid $border-color;
-      &.open {
-        visibility: visible;
-        z-index: 5;
-        display: block;
-      }
-      ul {
-        display: block;
-        margin: 0;
-
-        li {
-          padding: 10px 0;
-          display: block;
-
-        }
-      }
-      .sign-in {
-        padding: 10px;
-        display: block;
-      }
-    }
-  }
-  .mob-bars {
-    display: flex;
-  }
   .profile {
-    justify-content: flex-start;
-    padding: 10px 0;
     .dropdown-menu {
       width: 100%;
       ul {
         padding: 0 40px;
       }
     }
+  }
   }
 }
 

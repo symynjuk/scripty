@@ -1,6 +1,6 @@
-<app-header></app-header>
+<app-header  (sidebarIsOpen)="onSidebarIsOpen($event)"></app-header>
 <div class="wrap">
-    <app-sidebar></app-sidebar>
+    <app-sidebar [ngClass]="{open: isOpen}"></app-sidebar>
     <main class="content">
         <router-outlet></router-outlet>
         <app-footer></app-footer>

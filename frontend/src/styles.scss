@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+@import "reset-src";
 @import "variables";
 
 html {
@@ -9,6 +9,12 @@ html {
     font-size: 16px;
     height: inherit;
     margin: 0;
+    header {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     app-projects {
       height: 100%;
       display: flex;
@@ -17,12 +23,6 @@ html {
       .wrap {
         display: flex;
         height: 100%;
-        app-sidebar {
-          display: flex;
-          @media (max-width: 768px) {
-            display: none;
-          }
-        }
         main {
           display: flex;
           flex-direction: column;
@@ -57,6 +57,26 @@ html {
 
     input:focus, textarea:focus {
       opacity: 0.6;
+    }
+    app-sidebar {
+      display: none;
+      &.open{
+        display: flex;
+      }
+    }
+    .mob-bars {
+      display: flex;
+    }
+    @media (min-width: 769px) {
+      header {
+        .mob-bars {
+          display: none;
+        }
+      }
+      app-sidebar {
+        display: flex;
+      }
+
     }
   }
 }
