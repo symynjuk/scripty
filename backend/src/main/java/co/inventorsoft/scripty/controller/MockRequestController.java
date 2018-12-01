@@ -27,14 +27,14 @@ import java.util.regex.Pattern;
 @Api(description = "Operations with mock requests")
 @RestController
 public class MockRequestController {
-    @Value("${prefix.link}")
     String link;
 
     MockRequestService requestService;
 
     @Autowired
-    MockRequestController(MockRequestService service){
+    MockRequestController(MockRequestService service, @Value("${prefix.link}")String link){
         requestService = service;
+        this.link = link;
     }
 
     @ApiOperation(value = "Create mock response with specified parameters")
