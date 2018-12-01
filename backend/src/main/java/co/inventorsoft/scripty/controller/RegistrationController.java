@@ -38,4 +38,10 @@ public class RegistrationController {
     public void resendRegistrationToken(@Valid @RequestBody final EmailDto email){
         userService.resendRegistrationToken(email);
     }
+
+    @PostMapping(value = "/user/sendPasswordReset", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendPasswordReset(@Valid @RequestBody EmailDto emailDto){
+        userService.sendResetPasswordToken(emailDto);
+    }
 }

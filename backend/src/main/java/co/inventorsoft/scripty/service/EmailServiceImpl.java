@@ -27,6 +27,10 @@ import java.util.Map;
 public class EmailServiceImpl implements EmailService{
     @Value("${prefix.link}")
     private String prefixUrl;
+    @Value("${verification.email.template}")
+    private String verificationEmailTemplate;
+    @Value("${reset.password.template}")
+    private String resetPasswordTemplate;
 
     private JavaMailSender javaMailSender;
     private Configuration freemarkerConfig;
@@ -39,10 +43,10 @@ public class EmailServiceImpl implements EmailService{
 
     public void sendEmailWithVerificationLink(final User user,
                                               final String token){
-
+        final String subject = "Confirmation link";
         MimeMessage mimeMessage = null;
         try {
-            mimeMessage = constructMimeMessage(user, token, prefixUrl);
+            mimeMessage = constructMimeMessage(user, token, prefixUrl, verificationEmailTemplate, subject);
         } catch (MessagingException | IOException | TemplateException e){
             e.printStackTrace();
         }
@@ -51,9 +55,22 @@ public class EmailServiceImpl implements EmailService{
 
     public void resendEmailWithVerificationLink(final User user,
                                                 final VerificationToken token){
+        final String subject = "Confirmation Link";
         MimeMessage mimeMessage = null;
         try {
-            mimeMessage = constructMimeMessage(user, token.getToken(), prefixUrl);
+            mimeMessage = constructMimeMessage(user, token.getToken(), prefixUrl, verificationEmailTemplate, subject);
+        } catch (MessagingException | IOException | TemplateException e){
+            e.printStackTrace();
+        }
+        javaMailSender.send(mimeMessage);
+    }
+
+    public void sendEmailWithResetPasswordToken(final User user,
+                                                final String passwordToken) {
+        final String subject = "Password reset request";
+        MimeMessage mimeMessage = null;
+        try {
+            mimeMessage = constructMimeMessage(user, passwordToken, prefixUrl, resetPasswordTemplate, subject);
         } catch (MessagingException | IOException | TemplateException e){
             e.printStackTrace();
         }
@@ -62,7 +79,9 @@ public class EmailServiceImpl implements EmailService{
 
     private MimeMessage constructMimeMessage(final User user,
                                              final String token,
-                                             final String prefixUrl) throws MessagingException, IOException, TemplateException {
+                                             final String prefixUrl,
+                                             final String emailTemplate,
+                                             final String subject) throws MessagingException, IOException, TemplateException {
         final Map<String, String> model = new HashMap<>();
         model.put("lastName", user.getLastName());
         model.put("firstName", user.getFirstName());
@@ -72,12 +91,12 @@ public class EmailServiceImpl implements EmailService{
         final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,
                 MimeMessageHelper.MULTIPART_MODE_RELATED,
                 StandardCharsets.UTF_8.name());
-        final Template template = freemarkerConfig.getTemplate("email.ftl");
+        final Template template = freemarkerConfig.getTemplate(emailTemplate);
         final String html = FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
         helper.setTo(user.getEmail());
         helper.setText(html, true);
         helper.addInline("logo.png", new ClassPathResource("static/logo.png"));
-        helper.setSubject("Confirmation link");
+        helper.setSubject(subject);
         return mimeMessage;
     }
 }
