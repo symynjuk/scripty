@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AdminPageComponent} from '../admin-page.component';
 
 @Component({
@@ -8,10 +8,14 @@ import {AdminPageComponent} from '../admin-page.component';
 })
 export class AdminHeaderComponent implements OnInit {
 	sidebarIsCollapsed: boolean;
-	constructor(private AdminParent: AdminPageComponent) { }
+
+	constructor(private AdminParent: AdminPageComponent) {
+	}
+
 	ngOnInit() {
 	}
-	toggleSidebar () {
+
+	toggleSidebar() {
 		this.AdminParent.toggleSidebar();
 		this.sidebarIsCollapsed = this.AdminParent.sidebarIsCollapsed;
 	}
