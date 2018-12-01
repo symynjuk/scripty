@@ -1,8 +1,6 @@
-/* Reset CSS */
 @import "reset-src";
-
-/* You can add global styles to this file, and also import other style files */
 @import "variables";
+
 html {
   height: 100%;
   body {
@@ -11,13 +9,38 @@ html {
     font-size: 16px;
     height: inherit;
     margin: 0;
+    header {
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    app-projects {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .wrap {
+        display: flex;
+        height: 100%;
+        main {
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          box-sizing: border-box;
+          width: 100%;
+          app-project {
+            flex-grow: 1;
+          }
+        }
+      }
+    }
+
     a {
       text-decoration: none;
       font-family: 'Roboto', sans-serif;
       font-size: 16px;
     }
-  }
-}
 
 img {
   max-width: 100%;
@@ -33,8 +56,31 @@ input, textarea {
   padding: 10px;
   margin: 10px 0;
   color: white;
+  resize: none;
 }
 
-input:focus, textarea:focus {
-  opacity: 0.6;
+    input:focus, textarea:focus {
+      opacity: 0.6;
+    }
+    app-sidebar {
+      display: none;
+      &.open{
+        display: flex;
+      }
+    }
+    .mob-bars {
+      display: flex;
+    }
+    @media (min-width: 769px) {
+      header {
+        .mob-bars {
+          display: none;
+        }
+      }
+      app-sidebar {
+        display: flex;
+      }
+
+    }
+  }
 }

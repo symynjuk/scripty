@@ -1,36 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-/*Material Components*/
-import { MaterialModule } from './material-module';
-/*Admin Layout*/
-import { AdminPageComponent } from './layouts/admin-page/admin-page.component';
-import { AdminFooterComponent } from './layouts/admin-page/footer/footer.component';
-import { AdminHeaderComponent} from './layouts/admin-page/header/header.component';
-import { AdminSidebarComponent} from './layouts/admin-page/sidebar/sidebar.component';
-import { ProjectComponent } from './layouts/project/project.component';
-import { FooterComponent } from './layouts/project/footer/footer.component';
-import {MainComponent} from './layouts/project/main/main.component';
-import {SidebarComponent} from './layouts/project/sidebar/sidebar.component';
-import {HeaderComponent} from './layouts/project/header/header.component';
-import { AdminContentComponent } from './layouts/admin-page/content/content.component';
+import {MaterialModule} from './material-module';
 
 @NgModule({
 	declarations: [
 		AppComponent,
-		SidebarComponent,
-		HeaderComponent,
-		MainComponent,
-		AdminPageComponent,
-		AdminHeaderComponent,
-		AdminFooterComponent,
-		AdminContentComponent,
-		AdminSidebarComponent,
-		ProjectComponent,
-		FooterComponent
 	],
 	imports: [
 		BrowserModule,
@@ -41,4 +19,5 @@ import { AdminContentComponent } from './layouts/admin-page/content/content.comp
 	providers: [],
 	bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
