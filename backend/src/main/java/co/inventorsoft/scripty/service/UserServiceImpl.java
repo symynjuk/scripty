@@ -1,11 +1,13 @@
 package co.inventorsoft.scripty.service;
 import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.EmailDto;
+import co.inventorsoft.scripty.model.dto.PasswordDto;
 import co.inventorsoft.scripty.model.entity.User;
 import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
+import javafx.application.Application;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,6 +88,21 @@ public class UserServiceImpl implements UserService{
         user.setEnabled(true);
         userRepository.save(user);
         tokenRepository.delete(verificationToken);
+    }
+
+    public void updatePassword(Long id, PasswordDto passwordDto) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            if (user.get().isEnabled()) {
+                if(passwordEncoder.matches(passwordDto.getOldPassword(), user.get().getPassword())) {
+                    user.get().setPassword(passwordEncoder.encode(passwordDto.getPassword()));
+                    userRepository.save(user.get());
+                } else
+                    throw new ApplicationException("The password you've entered doesn't match your current one", HttpStatus.BAD_REQUEST);
+            } else
+                throw new ApplicationException("Please, verify your account first", HttpStatus.OK);
+        } else
+            throw new ApplicationException("User not found.", HttpStatus.NOT_FOUND);
     }
 
     private void createVerificationTokenForUser(final User user, final String token) {
