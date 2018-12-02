@@ -1,3 +1,11 @@
+# Introduction
+
+- Install [node](https://nodejs.org/en/download/)
+- __Run__ `npm i -g @angular/cli`
+- move into the frontend directory `cd ./frontend`
+- __Run__ `npm i`
+- __Run__ `ng serve --open`
+
 # Project
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.3.

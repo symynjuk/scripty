@@ -30,6 +30,11 @@
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/scss"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
