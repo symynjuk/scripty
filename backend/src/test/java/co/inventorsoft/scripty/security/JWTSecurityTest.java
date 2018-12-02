@@ -75,6 +75,11 @@ public class JWTSecurityTest {
 		mockMvc.perform(get("/test/admin").header("Authorization", "Bearer " + accessToken)).andExpect(status().isOk());
 	}
 
+	@Test(expected =  AssertionError.class)
+	public void getShouldCatchAssertionErrorWhenUserDoesNotExist() throws Exception {
+		jwtSecurity.obtainTokensGrantTypePassword("nouser@test.co", "jwtpass", mockMvc);
+	}
+
 	@Test
 	public void getShouldGetForbiddenWhenRoleIsInvalid() throws Exception {
 		final String accessToken = jwtSecurity.obtainTokensGrantTypePassword("user@test.co", "jwtpass", mockMvc)[0];

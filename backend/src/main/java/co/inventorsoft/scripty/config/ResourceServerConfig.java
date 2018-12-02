@@ -31,9 +31,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 	public void configure(HttpSecurity http) throws Exception {
 		http
 			.requestMatchers().and().authorizeRequests()
-			.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
-			.antMatchers("/registration**", "/user/resendRegistrationToken").permitAll()
+			.antMatchers("/v2/api-docs", "/swagger*/**", "/", "/webjars/**").permitAll()
+			.antMatchers("/registration*", "/user/resendRegistrationToken").permitAll()
 			.antMatchers("/test/anybody", "/test").permitAll()
+			.antMatchers("/mock-requests", "/mock-requests/*").hasRole("USER")
 			.anyRequest().authenticated();
 	}
 }

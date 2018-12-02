@@ -23,15 +23,12 @@ public class AppUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-		User user = userRepository.findByEmail(s)
-								.orElseThrow(() -> new UsernameNotFoundException("The user "+s+" doesn't exist"));
-		if(!user.isEnabled()) {
-			throw new UsernameNotFoundException("The user "+s+" isn't enabled");			
-		}
-
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), 
-														user.getPassword(), 
-														Arrays.asList(new SimpleGrantedAuthority(user.getRole())));
+		return userRepository.findByEmail(s)
+				.filter(User::isEnabled)
+				.map(user -> new org.springframework.security.core.userdetails.User(user.getEmail(), 
+																					user.getPassword(), 
+											Arrays.asList(new SimpleGrantedAuthority(user.getRole()))))
+				.orElseThrow(() -> new UsernameNotFoundException("The user "+s+" doesn't exist"));
 	}
 
 }
