@@ -1,4 +1,5 @@
 package co.inventorsoft.scripty.service;
+import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.entity.User;
 import co.inventorsoft.scripty.model.entity.VerificationToken;
 import freemarker.template.Configuration;
@@ -7,6 +8,7 @@ import freemarker.template.TemplateException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class EmailServiceImpl implements EmailService{
         try {
             mimeMessage = constructMimeMessage(user, token, prefixUrl, verificationEmailTemplate, subject);
         } catch (MessagingException | IOException | TemplateException e){
-            e.printStackTrace();
+            throw new ApplicationException(e, HttpStatus.BAD_REQUEST);
         }
         javaMailSender.send(mimeMessage);
     }
@@ -60,7 +62,7 @@ public class EmailServiceImpl implements EmailService{
         try {
             mimeMessage = constructMimeMessage(user, token.getToken(), prefixUrl, verificationEmailTemplate, subject);
         } catch (MessagingException | IOException | TemplateException e){
-            e.printStackTrace();
+            throw new ApplicationException(e, HttpStatus.BAD_REQUEST);
         }
         javaMailSender.send(mimeMessage);
     }
@@ -72,7 +74,7 @@ public class EmailServiceImpl implements EmailService{
         try {
             mimeMessage = constructMimeMessage(user, passwordToken, prefixUrl, resetPasswordTemplate, subject);
         } catch (MessagingException | IOException | TemplateException e){
-            e.printStackTrace();
+            throw new ApplicationException(e, HttpStatus.BAD_REQUEST);
         }
         javaMailSender.send(mimeMessage);
     }

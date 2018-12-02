@@ -1,9 +1,6 @@
 package co.inventorsoft.scripty.model.entity;
 
-import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -14,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(of="id")
 public class PasswordToken {
@@ -30,13 +28,10 @@ public class PasswordToken {
 
     Instant expiryDate;
     public PasswordToken(String passwordToken, User user){
-        super();
         this.passwordToken = passwordToken;
         this.user = user;
         this.expiryDate = calculateExpiryDate(EXPIRATION_DAYS);
     }
-    public PasswordToken(){}
-
     public PasswordToken updatePasswordToken(final String passwordToken) {
         this.passwordToken = passwordToken;
         this.expiryDate = calculateExpiryDate(EXPIRATION_DAYS);

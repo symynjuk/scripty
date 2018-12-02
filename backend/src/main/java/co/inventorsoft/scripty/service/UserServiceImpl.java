@@ -112,10 +112,12 @@ public class UserServiceImpl implements UserService{
     }
 
     public void sendResetPasswordToken(final EmailDto emailDto){
-        final User user = userRepository.findByEmail(emailDto.getEmail())
-                .orElseThrow(()-> new ApplicationException("Email is not found", HttpStatus.OK));
-        final String resetPasswordToken = UUID.randomUUID().toString();
-        createResetPasswordToken(user, resetPasswordToken);
-        emailService.sendEmailWithResetPasswordToken(user, resetPasswordToken);
+        Optional<User> userOptional = userRepository.findByEmail(emailDto.getEmail());
+        if(userOptional.isPresent()) {
+            final User user = userOptional.get();
+            final String resetPasswordToken = UUID.randomUUID().toString();
+            createResetPasswordToken(user, resetPasswordToken);
+            emailService.sendEmailWithResetPasswordToken(user, resetPasswordToken);
+        }
     }
 }
