@@ -1,0 +1,25 @@
+version: '3.2'
+
+services:
+  mysql-docker-container:
+    image: mysql/mysql-server:8.0.13
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=scripty
+      - MYSQL_DATABASE=inventorsoftacademy
+      - MYSQL_USER=scripty
+      - MYSQL_PASSWORD=scripty
+    volumes:
+      - mysql-db:/d/db/data
+    ports:
+      - "3306:3306"
+      - "33060:33060"
+  spring-boot-jpa-app:
+    build:
+      context: .
+    depends_on:
+      - mysql-docker-container
+    ports:
+      - 8090:8080
+volumes:
+    mysql-db:
