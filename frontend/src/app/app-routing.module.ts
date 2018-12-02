@@ -6,6 +6,7 @@ const routes: Routes = [
     {
         path: 'projects',
         loadChildren: './layouts/projects/projects.module#ProjectsModule',
+        data: {title: 'Projects'}
     },
     {
         path: '',

@@ -12,11 +12,13 @@ const projectRoutes: Routes = [
         children: [
             {
                 path: '',
-                component: ProjectComponent
+                component: ProjectComponent,
+                data: {title: 'Your project'}
             },
             {
                 path: 'project',
-                component: ProjectComponent
+                component: ProjectComponent,
+                data: {title: 'Your project'}
             }
         ]
     }
