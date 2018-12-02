@@ -1,8 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
-import {AdminPageComponent} from './layouts/admin-page/admin-page.component';
-
 const routes: Routes = [
 	{
 		path: 'projects',
@@ -13,11 +11,12 @@ const routes: Routes = [
 		redirectTo: '/projects', pathMatch: 'full'
 	},
 	{
-		path: '**', redirectTo: '/projects'
+		path: 'admin',
+		loadChildren: './layouts/admin-page/admin-page.module#AdminPageModule'
 	},
 	{
-		path: 'admin', component: AdminPageComponent
-	}
+		path: '**', redirectTo: '/projects'
+	},
 ];
 
 @NgModule({

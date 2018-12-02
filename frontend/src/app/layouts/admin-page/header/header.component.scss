@@ -7,14 +7,19 @@ a {
   justify-content: space-between;
   padding: 15px 30px;
   background-color: #212529;
+  &-header {
+    display: flex;
+    align-items: center
+  }
   .header {
     &__logo {
       color: #fff;
     }
     &__toggle-btn {
-      margin-left: 15px;
+      margin-left: 5px;
+      margin-top: 2px;
       color: #fff;
-      font-size: 18px;
+      font-size: 22px;
       transition: all 0.3s cubic-bezier(0.81, -0.33, 0.345, 1.375);
     }
     &-menu {

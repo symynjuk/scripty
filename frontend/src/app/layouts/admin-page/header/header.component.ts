@@ -8,7 +8,6 @@ import {AdminPageComponent} from '../admin-page.component';
 })
 export class AdminHeaderComponent implements OnInit {
 	sidebarIsCollapsed: boolean;
-
 	constructor(private AdminParent: AdminPageComponent) {
 	}
 

@@ -4,22 +4,31 @@
   </div>
   <span class="sidebar-category">Main</span>
   <ul class="sidebar-sections">
-    <li class="sidebar-item sidebar-item--active">
-      <a class="sidebar-link">
-        <i class="fas fa-home sidebar-icon"></i>
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/">
+        <i class="material-icons sidebar-icon">
+          home
+        </i>
         Home
       </a>
     </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link">
-        <i class="fas fa-table sidebar-icon"></i>
-        Tables
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/users">
+        <i class="material-icons sidebar-icon">
+          supervised_user_circle
+        </i>
+        Users
       </a>
     </li>
-    <li class="sidebar-item">
-      <a class="sidebar-link">
-        <i class="far fa-chart-bar sidebar-icon"></i>
-        Charts
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/reports">
+        <i class="material-icons sidebar-icon">
+          assignment
+        </i>
+        Bug Reports
       </a>
     </li>
   </ul>
