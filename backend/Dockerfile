@@ -1,12 +1,16 @@
+# Scripty
+#
+# VERSION 0.0.1
+
 FROM java:8
 
-MAINTAINER VADYM POLTORATSKY "vadjan87heavymetall@gmail.com"
+LABEL maintainer="vadjan87heavymetall@gmail.com"
+LABEL Decsription="Scripty - co.inventorsoft Academy autumn 2018 project"
 
 WORKDIR /
 
 ADD target/scripty-0.0.1-SNAPSHOT.jar scripty.jar
 
-EXPOSE 8090
+EXPOSE 8080
 
-#CMD java -jar scripty.jar
 ENTRYPOINT ["java","-jar","scripty.jar"]

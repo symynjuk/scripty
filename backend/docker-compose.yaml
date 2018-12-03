@@ -12,9 +12,9 @@ services:
     volumes:
       - mysql-db:/d/db/data
     ports:
-      - "3306:3306"
-      - "33060:33060"
-  spring-boot-jpa-app:
+      - 3306:3306
+      - 33060:33060
+  scripty-docker-container:
     build:
       context: .
     depends_on:
