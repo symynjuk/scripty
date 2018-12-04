@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
         final User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getValidPassword()));
         user.setEmail(userDto.getEmail());
         user.setEnabled(false);
         user.setRole("User");
@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService{
         }
         final VerificationToken verificationToken = verificationTokenOptional.get();
         final User user = verificationToken.getUser();
-        Instant instantExp = verificationToken.getExpiryDate();
+        final Instant instantExp = verificationToken.getExpiryDate();
         final Instant instant = Clock.systemDefaultZone().instant();
         if ((instantExp.isBefore(instant))) {
             throw new ApplicationException("Time of user verification link has expired", HttpStatus.BAD_REQUEST);

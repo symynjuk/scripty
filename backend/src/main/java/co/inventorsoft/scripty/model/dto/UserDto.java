@@ -5,17 +5,15 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 /**
  *
  * @author Symyniuk
  *
  */
+
 @Getter
 @Setter
-@EqualsAndHashCode(of="id")
-@PasswordMatches
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
 
@@ -24,9 +22,12 @@ public class UserDto {
     @NotBlank(message = "Please provide your last name")
     String lastName;
     @ValidPassword
-    String password;
-    @NotNull
-    String matchingPassword;
+    @PasswordMatches
+    Password password;
+    @NotBlank
     @Email(message = "Please provide your email")
     String email;
+    public String getValidPassword(){
+        return password.getPassword();
+    }
 }
