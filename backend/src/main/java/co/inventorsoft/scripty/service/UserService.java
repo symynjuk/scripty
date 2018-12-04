@@ -9,4 +9,5 @@ public interface UserService {
     void resendRegistrationToken(EmailDto emailDto);
     void validateVerificationToken(String token);
     User findByEmail(String email);
+    void sendResetPasswordToken(EmailDto emailDto);
 }

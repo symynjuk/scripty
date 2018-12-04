@@ -46,25 +46,29 @@ html {
       font-size: 16px;
     }
 
-    input, textarea, select {
-      background: transparent;
-      border: 1px solid $border-color;
-      font-family: 'Roboto', sans-serif;
-      width: 100%;
-      box-sizing: border-box;
-      font-size: 16px;
-      padding: 10px;
-      margin: 10px 0;
-      color: white;
-      resize: none;
-    }
+img {
+  max-width: 100%;
+}
+
+input, textarea, select {
+  background: transparent;
+  border: 1px solid $border-color;
+  font-family: 'Roboto', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 16px;
+  padding: 10px;
+  margin: 10px 0;
+  color: white;
+  resize: none;
+}
 
     input:focus, textarea:focus, select:focus {
       opacity: 0.6;
     }
     app-sidebar {
       display: none;
-      &.open {
+      &.open{
         display: flex;
       }
     }
