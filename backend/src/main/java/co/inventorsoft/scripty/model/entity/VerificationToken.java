@@ -13,6 +13,7 @@ import java.time.Instant;
 @Setter
 @EqualsAndHashCode(of="id")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 @Entity
 public class VerificationToken {
     static final Long EXPIRATION = 60L;
@@ -35,8 +36,6 @@ public class VerificationToken {
         this.token = token;
         this.user = user;
         this.expiryDate = calculateExpiryDate(EXPIRATION * TO_MINUTES);
-    }
-    public VerificationToken(){
     }
 
     private Instant calculateExpiryDate(final Long expiryTimeInMinutes) {

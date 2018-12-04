@@ -4,6 +4,7 @@ import co.inventorsoft.scripty.validation.ValidPassword;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -18,9 +19,9 @@ import javax.validation.constraints.NotNull;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
 
-    @NotNull(message = "Please provide your first name")
+    @NotBlank(message = "Please provide your last name")
     String firstName;
-    @NotNull(message = "Please provide your last name")
+    @NotBlank(message = "Please provide your last name")
     String lastName;
     @ValidPassword
     String password;

@@ -13,6 +13,11 @@ const routes: Routes = [
         redirectTo: '/projects', pathMatch: 'full'
     },
     {
+        path: 'admin',
+        loadChildren: './layouts/admin-page/admin-page.module#AdminPageModule',
+        data: {title: 'Admin page'}
+    },
+    {
         path: '**', redirectTo: '/projects'
     }
 ];
