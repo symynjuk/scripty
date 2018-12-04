@@ -9,7 +9,7 @@ const routes: Routes = [
 		path: '', component: AdminPageComponent,
 		children: [
 			{
-					path: '', component: AdminSidebarComponent
+				path: '', component: AdminSidebarComponent
 			},
 			{
 				path: 'users', component: AdminFooterComponent,
