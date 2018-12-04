@@ -8,18 +8,8 @@ import {Project} from './models/Project';
     styleUrls: ['./project.component.scss']
 })
 export class ProjectComponent implements OnInit {
-    projects: Project[] = [
-        {name: 'Project: 1', type: 'JavaScript', author: 'Oleh Chepak', author_id: 1, isPrivate: true},
-        {name: 'Project: 2', type: 'JQuery', author: 'Another Author', author_id: 2, isPrivate: false},
-        {name: 'Project: 3', type: 'Vue', author: 'Another Author', author_id: 2, isPrivate: true},
-        {name: 'Project: 4', type: 'JavaScript', author: 'Oleh Chepak', author_id: 1, isPrivate: true},
-        {name: 'Project: 5', type: 'JQuery', author: 'Another Author', author_id: 2, isPrivate: false},
-        {name: 'Project: 6', type: 'JQuery', author: 'Another Author', author_id: 2, isPrivate: true},
-        {name: 'Project: 7', type: 'JavaScript', author: 'Oleh Chepak', author_id: 1, isPrivate: false},
-        {name: 'Project: 8', type: 'JQuery', author: 'Oleh Chepak', author_id: 1, isPrivate: false},
-        {name: 'Project: 9', type: 'JQuery', author: 'Another Author', author_id: 2, isPrivate: false}
-    ];
-    activeProjects: Project[] = this.projects;
+    projects: Array<Project>;
+    activeProjects: Array<Project>;
     searchStr = '';
     onlyMyProjects = true;
 
@@ -28,6 +18,11 @@ export class ProjectComponent implements OnInit {
 
     ngOnInit() {
         localStorage.setItem('userId', '1');
+        this.projectService.getProjects()
+            .subscribe((projects: Array<Project>) => {
+                this.projects = projects;
+                this.activeProjects = this.projects;
+            });
     }
 
     onSearch(e: string) {
@@ -36,5 +31,13 @@ export class ProjectComponent implements OnInit {
 
     showMyProjects(e: boolean) {
         this.onlyMyProjects = e;
+    }
+
+    showMore() {
+        this.projectService.getMoreProjects()
+            .subscribe((projects: Array<Project>) => {
+                this.projects = this.projects.concat(projects);
+                this.activeProjects = this.projects;
+            });
     }
 }

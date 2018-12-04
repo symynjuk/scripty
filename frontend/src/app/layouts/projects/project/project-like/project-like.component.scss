@@ -1,3 +1,10 @@
-.red {
-  color: red;
+.btn-like{
+  background: none;
+  &_active{
+    color: lighten(red,10);
+  }
+  &:hover{
+    background: none;
+    color: lighten(red, 20);
+  }
 }

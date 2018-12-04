@@ -1,0 +1,14 @@
+<div>
+  <h1 mat-dialog-title>{{ confirmMessage }}</h1>
+  <div mat-dialog-actions>
+    <button class="btn btn-cancel"
+            type="button"
+            (click)="dialogRef.close(false)"
+    >Cancel
+    </button>
+    <button class="btn"
+            (click)="dialogRef.close(true)"
+            cdkFocusInitial>Confirm
+    </button>
+  </div>
+</div>

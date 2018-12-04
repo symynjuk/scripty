@@ -1,9 +1,21 @@
 @import "variables";
 
 .search {
-  color: #9E9E9E;
-}
-
-.search__checkbox {
-  margin: 0 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: wrap;
+  &__input{
+    max-width: 250px;
+  }
+  &__group {
+    input{
+      margin: 0 5px;
+      width: auto;
+    }
+    margin: 0 20px;
+    display: flex;
+    align-items: center;
+    width: 170px;
+  }
 }

@@ -2,41 +2,38 @@
     <h1 mat-dialog-title>Create project</h1>
     <div mat-dialog-content>
         <div class="form-row">
-            <label for="nameIput">Name:</label>
-            <mat-form-field>
-                <input matInput id="nameIput" type="text" formControlName="name">
-            </mat-form-field>
+            <label for="nameInput">Name:</label>
+            <input class="form-row__input" id="nameInput" type="text" formControlName="name">
         </div>
         <div class="form-row">
             <label for="typeInput">Type:</label>
-            <mat-form-field>
-                <select id="typeInput" matNativeControl formControlName="type">
-                    <option
-                            *ngFor="let type of projectTypes"
-                            [value]="type"
-                    >{{ type }}
-                    </option>
-                </select>
-            </mat-form-field>
+            <select class="form-row__input" id="typeInput" formControlName="type">
+                <option
+                        *ngFor="let type of projectTypes"
+                        [value]="type"
+                >{{ type }}
+                </option>
+            </select>
         </div>
         <div class="form-row">
             <label for="visibilityInput">Visibility:</label>
-            <mat-form-field>
-                <select id="visibilityInput" matNativeControl formControlName="isPrivate">
-                    <option value="false">Public</option>
-                    <option value="true">Private</option>
-                </select>
-            </mat-form-field>
+            <select class="form-row__input" id="visibilityInput" formControlName="isPrivate">
+                <option value="false">Public</option>
+                <option value="true">Private</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="descrInput">Description:</label>
+            <textarea class="form-row__input" id="descrInput" placeholder="(optional)" formControlName="description"></textarea>
         </div>
     </div>
     <div mat-dialog-actions>
-        <button mat-flat-button
+        <button class="btn btn-cancel"
                 type="button"
                 (click)="onNoClick()"
         >Cancel
         </button>
-        <button mat-flat-button
-                color="primary"
+        <button class="btn"
                 [disabled]="form.invalid"
                 type="submit"
                 cdkFocusInitial>Create

@@ -3,5 +3,5 @@
     <app-projects-list [projects]="activeProjects"
                        [searchStr]="searchStr"
                        [onlyMyProjects]="onlyMyProjects"></app-projects-list>
-    <button mat-flat-button color="primary" id="showMoreBtn">Show more</button>
+    <button class="btn" id="showMoreBtn" (click)="showMore()">Show more</button>
 </div>

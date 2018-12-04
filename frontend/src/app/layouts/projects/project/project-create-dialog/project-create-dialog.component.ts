@@ -13,9 +13,12 @@ export class ProjectCreateDialogComponent implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<ProjectCreateDialogComponent>) {
         this.form = new FormGroup({
-            name: new FormControl('Project Name', [Validators.required]),
+            name: new FormControl('Project Name', [Validators.required,
+                Validators.minLength(2),
+                Validators.maxLength(50)]),
             type: new FormControl(this.projectTypes[0], [Validators.required]),
-            isPrivate: new FormControl('false', [Validators.required])
+            isPrivate: new FormControl('false', [Validators.required]),
+            description: new FormControl('', [Validators.maxLength(255)])
         });
     }
 

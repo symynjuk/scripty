@@ -1,6 +1,6 @@
 <div>
-  <button mat-flat-button (click)="likeIt()">
-    <i class="material-icons" [ngClass]="isLiked ? 'red' : ''">
+  <button class="btn btn-like" (click)="likeIt()">
+    <i class="material-icons" [ngClass]="isLiked ? 'btn-like_active' : ''">
       favorite
     </i>
   </button>
