@@ -1,18 +1,26 @@
 package co.inventorsoft.scripty.service;
 import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.EmailDto;
+import co.inventorsoft.scripty.model.dto.ImageTypes;
+import co.inventorsoft.scripty.model.dto.PictureDto;
 import co.inventorsoft.scripty.model.entity.PasswordToken;
+import co.inventorsoft.scripty.model.entity.Picture;
 import co.inventorsoft.scripty.model.entity.User;
 import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.repository.PasswordTokenRepository;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
+import com.google.common.io.Files;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.*;
@@ -92,6 +100,38 @@ public class UserServiceImpl implements UserService{
         user.setEnabled(true);
         userRepository.save(user);
         tokenRepository.delete(verificationToken);
+    }
+
+    public void setPicture(String email, MultipartFile picture) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (!ImageTypes.contains(Files.getFileExtension(picture.getOriginalFilename()))) throw new ApplicationException("Invalid file extension", HttpStatus.BAD_REQUEST);
+        if (user.isPresent()) {
+            Picture userPic = new Picture();
+            try {
+                userPic.setContent(picture.getBytes());
+                userPic.setContentType(picture.getContentType());
+                user.get().setPicture(userPic);
+            } catch (IOException e) {
+                throw new ApplicationException("File's empty. Please, try to use another one!", HttpStatus.BAD_REQUEST);
+            }
+        } else
+            throw new ApplicationException("User not found", HttpStatus.BAD_REQUEST);
+        userRepository.save(user.get());
+    }
+
+    public PictureDto getPicture(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        PictureDto image = new PictureDto();
+
+        if(user.isPresent()) {
+            if (!(user.get().getPicture() == null)) {
+                image.setContentType(MediaType.parseMediaType(user.get().getPicture().getContentType()));
+                image.setContent(user.get().getPicture().getContent());
+            } else
+                throw new ApplicationException("User has no profile picture.", HttpStatus.NOT_FOUND);
+        } else
+            throw new ApplicationException("User not found.", HttpStatus.NOT_FOUND);
+        return image;
     }
 
     private void createVerificationTokenForUser(final User user, final String token) {

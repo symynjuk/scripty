@@ -33,7 +33,9 @@ public class User {
     String password;
 
     @Lob
-    Byte picture;
+    @OneToOne(cascade=CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name="PICTURE_ID")
+    Picture picture;
 
     @Column(nullable = false)
     boolean enabled;
