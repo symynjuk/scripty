@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Password {
+
     String password;
     String matchingPassword;
 }

@@ -1,10 +1,6 @@
 package co.inventorsoft.scripty.validation;
-
-import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.Password;
 import org.passay.*;
-import org.springframework.http.HttpStatus;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.Arrays;
@@ -15,14 +11,14 @@ import java.util.Arrays;
  *
  */
 public class PasswordConstraintValidator implements ConstraintValidator<ValidPassword, Password> {
-    @Override
-    public void initialize(ValidPassword constraintAnnotation) {
-    }
 
     @Override
     public boolean isValid(Password password, ConstraintValidatorContext constraintValidatorContext) {
         if(password.getPassword() == null){
-            throw new ApplicationException("Please provide password", HttpStatus.BAD_REQUEST);
+            constraintValidatorContext.disableDefaultConstraintViolation();
+            constraintValidatorContext.buildConstraintViolationWithTemplate("Please provide your password")
+                    .addConstraintViolation();
+            return false;
         }
         PasswordValidator passwordValidator = new PasswordValidator(Arrays.asList(
                 new LengthRule(6, 16),

@@ -17,15 +17,15 @@ import javax.validation.constraints.NotBlank;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
 
-    @NotBlank(message = "Please provide your last name")
+    @NotBlank(message = "Please provide your first name")
     String firstName;
     @NotBlank(message = "Please provide your last name")
     String lastName;
     @ValidPassword
     @PasswordMatches
     Password password;
-    @NotBlank
-    @Email(message = "Please provide your email")
+    @Email
+    @NotBlank(message = "Please provide your email")
     String email;
     public String getValidPassword(){
         return password.getPassword();
