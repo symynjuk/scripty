@@ -1,22 +1,24 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MatButtonModule, MatFormFieldModule, MatInputModule} from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AdminTicketComponent} from './admin-ticket.component';
-import {AdminTicketRoutingModule} from './admin-ticket-routing.module';
+import {MaterialModule} from '../material-module';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 
 @NgModule({
-  declarations: [
-    AdminTicketComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    AdminTicketRoutingModule
-  ]
+    declarations: [
+        AdminTicketComponent,
+        AlertDialogComponent
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule
+    ],
+    entryComponents: [
+        AlertDialogComponent
+    ]
 })
-export class AdminTicketModule {}
+export class AdminTicketModule {
+}

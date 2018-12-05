@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
+import {AdminTicketComponent} from './admin-ticket/admin-ticket.component';
 
 
 const routes: Routes = [
@@ -7,6 +8,11 @@ const routes: Routes = [
         path: 'projects',
         loadChildren: './layouts/projects/projects.module#ProjectsModule',
         data: {title: 'Projects'}
+    },
+    {
+        path: 'report',
+        component: AdminTicketComponent,
+        data: {title: 'Report an error'}
     },
     {
         path: '',

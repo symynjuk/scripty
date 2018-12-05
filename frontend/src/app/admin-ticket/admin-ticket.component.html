@@ -1,13 +1,34 @@
-<form #formElement="ngForm" [formGroup]="form">
-  <mat-form-field>
-    <input matInput formControlName="title" placeholder="Title">
-  </mat-form-field>
-  <mat-form-field>
-    <textarea matInput formControlName="description" placeholder="Description"></textarea>
-  </mat-form-field>
-    <input type="file" id="fileInput" (change)="onFileChange($event)">
-  <button mat-flat-button color="primary"
-          type="button"
-          (click)="onSubmit()"
-          [disabled]="form.invalid || form.pristine">Submit</button>
-</form>
+<div class="background">
+    <form #formElement="ngForm" class="form" [formGroup]="form">
+        <div class="form-row">
+            <label for="titleInput">Title<sup>*</sup></label>
+            <input class="form-row__input" id="titleInput" formControlName="title">
+        </div>
+        <small class="mat-small mat-small__error"
+               *ngIf="form.get('title').errors?.maxlength"
+        >Max length is 55 symbols.
+        </small>
+        <div class="form-row">
+            <label for="descrInput">Description<sup>*</sup></label>
+            <textarea class="form-row__input" id="descrInput" formControlName="description"></textarea>
+        </div>
+        <small class="mat-small mat-small__error"
+               *ngIf="form.get('description').errors?.maxlength"
+        >Max length is 255 symbols.
+        </small>
+        <div class="file-row">
+            <label class="btn" for="fileInput">Choose file</label>
+            <input type="file" id="fileInput"
+                   (change)="onFileChange($event)"
+                   accept=".gif, .jpg, .png"
+            >
+            <p class="file-name" #fileName>No file chosen</p>
+        </div>
+        <small class="mat-small">Max file size is 5Mb. Supported formats: PNG, GIF, JPG.</small>
+        <button class="btn"
+                type="button"
+                (click)="onSubmit()"
+                [disabled]="form.invalid || form.pristine">Submit
+        </button>
+    </form>
+</div>
