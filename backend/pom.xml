@@ -25,6 +25,7 @@
         <swagger.version>2.9.2</swagger.version>
         <passay.version>1.0</passay.version>
         <oauth2.version>2.3.4.RELEASE</oauth2.version>
+        <oauth2-autoconfigure.version>2.1.1.RELEASE</oauth2-autoconfigure.version>
         <jwt.version>1.0.9.RELEASE</jwt.version>
     </properties>
 
@@ -87,9 +88,19 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
             <version>${oauth2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+            <version>${oauth2-autoconfigure.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>

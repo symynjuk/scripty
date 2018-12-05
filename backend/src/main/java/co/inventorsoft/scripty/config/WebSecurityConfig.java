@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -20,6 +23,7 @@ import org.springframework.security.web.access.channel.ChannelProcessingFilter;
  */
 @Configuration
 @EnableWebSecurity
+@EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -31,6 +35,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	JsonToUrlEncodedAuthenticationFilter jsonFilter;
+
+	@Autowired
+	private UserDetailsService userDetailsService;
+
+	@Autowired
+	private AuthorizationServerEndpointsConfiguration endpoints;
 
 	@Bean
 	@Override
@@ -45,6 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().disable()
 			.authorizeRequests()
 			.anyRequest().authenticated();
+		endpoints.getEndpointsConfigurer().userDetailsService(userDetailsService);
 	}
 
 	@Bean

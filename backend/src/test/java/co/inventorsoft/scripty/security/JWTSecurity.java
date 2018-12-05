@@ -3,6 +3,7 @@ package co.inventorsoft.scripty.security;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.json.JacksonJsonParser;
@@ -18,10 +19,10 @@ import org.springframework.util.MultiValueMap;
 @Component
 public class JWTSecurity {
 
-	@Value("${security.jwt.client-id}")
+	@Value("${security.oauth2.client.client-id}")
 	private String clientId;
 
-	@Value("${security.jwt.client-secret}")
+	@Value("${security.oauth2.client.client-secret}")
 	private String clientSecret;
 
 	public static final String CONTENT_TYPE = "application/json;charset=UTF-8";
@@ -48,6 +49,7 @@ public class JWTSecurity {
 	private String[] obtainAccessAndRefreshTokens(MultiValueMap<String, String> params, MockMvc mockMvc) throws Exception {
 		ResultActions result = mockMvc.perform(post("/oauth/token")
 									.params(params)
+									.with(httpBasic(clientId, clientSecret))
 									.accept(CONTENT_TYPE))
 									.andExpect(status().isOk())
 									.andExpect(content().contentType(CONTENT_TYPE));

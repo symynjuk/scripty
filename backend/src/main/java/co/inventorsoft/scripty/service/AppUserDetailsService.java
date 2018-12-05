@@ -25,9 +25,7 @@ public class AppUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 		return userRepository.findByEmail(s)
 				.filter(User::isEnabled)
-				.map(user -> new org.springframework.security.core.userdetails.User(user.getEmail(), 
-																					user.getPassword(), 
-											Arrays.asList(new SimpleGrantedAuthority(user.getRole()))))
+				.map(user -> new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), Arrays.asList(new SimpleGrantedAuthority(user.getRole()))))
 				.orElseThrow(() -> new UsernameNotFoundException("The user "+s+" doesn't exist"));
 	}
 

@@ -40,7 +40,7 @@ public class JWTSecurityTest {
 	@Autowired
 	private JWTSecurity jwtSecurity;
 	
-	@Value("${token.access.validity.seconds}")
+	@Value("${security.oauth2.client.access-token-validity-seconds}")
 	private int accessValidity;
 	
 	@Before
