@@ -1,0 +1,35 @@
+<div class="side-navbar">
+  <div class="sidebar-header">
+		<img class="sidebar-avatar" src="https://avatars0.githubusercontent.com/u/1?v=4" alt="">
+  </div>
+  <span class="sidebar-category">Main</span>
+  <ul class="sidebar-sections">
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/">
+        <i class="material-icons sidebar-icon">
+          home
+        </i>
+        Home
+      </a>
+    </li>
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/users">
+        <i class="material-icons sidebar-icon">
+          supervised_user_circle
+        </i>
+        Users
+      </a>
+    </li>
+    <li class="sidebar-item" routerLinkActive="sidebar-item--active"
+        [routerLinkActiveOptions]="{exact: true}">
+      <a class="sidebar-link" routerLink="/admin/reports">
+        <i class="material-icons sidebar-icon">
+          assignment
+        </i>
+        Bug Reports
+      </a>
+    </li>
+  </ul>
+</div>
