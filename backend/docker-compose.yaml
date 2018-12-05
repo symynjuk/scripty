@@ -9,8 +9,6 @@ services:
       - MYSQL_DATABASE=inventorsoftacademy
       - MYSQL_USER=scripty
       - MYSQL_PASSWORD=scripty
-    volumes:
-      - mysql-db:/d/db/data
     ports:
       - 3306:3306
       - 33060:33060
@@ -21,5 +19,3 @@ services:
       - mysql-docker-container
     ports:
       - 8090:8080
-volumes:
-    mysql-db:
