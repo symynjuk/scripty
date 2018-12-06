@@ -1,13 +1,2 @@
-INSERT INTO users(first_name, last_name, email, password, enabled) VALUES ('Misha', 'Symyniuk', 'symyniuk.mykhailo@gmail.com', 'qwerty123', true);
-INSERT INTO users(first_name, last_name, email, password, enabled) VALUES ('Leonid', 'Zabidovsky', 'zabidovsky@gmail.com', 'qwerty123', true);
-INSERT INTO users(first_name, last_name, email, password, enabled) VALUES ('Vasyl', 'Vasyliv', 'vasia@gmail.com', 'qwerty123', true);
-
-INSERT INTO role(name) VALUES ('Admin');
-INSERT INTO role(name) VALUES('User');
-
-INSERT INTO user_roles(user_id, role_id) VALUES (1,1);
-INSERT INTO user_roles(user_id, role_id) VALUES (2,1);
-INSERT INTO user_roles(user_id, role_id) VALUES (3,2);
-
-
-
+INSERT IGNORE INTO users(id, first_name, last_name, email, password, enabled, role) VALUES (1000, 'User', 'Scripty', 'user@test.co', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', true, 'ROLE_USER');
+INSERT IGNORE INTO users(id, first_name, last_name, email, password, enabled, role) VALUES (1001, 'Admin', 'Scripty', 'admin@test.co', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', true, 'ROLE_ADMIN');
