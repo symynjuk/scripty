@@ -1,0 +1,86 @@
+@import 'variables';
+
+header {
+  background: $primary-color;
+  border-bottom: 2px solid $border-color;
+  .login {
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .logo {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.5em;
+    color: white;
+  }
+  .mob-bars {
+    .material-icons {
+      color: white;
+      font-weight: bold;
+      font-size: 30px;
+      cursor: pointer;
+    }
+  }
+}
+
+.profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  .photo {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    img {
+      width: 100%;
+      border: 2px solid $border-color;
+      border-radius: 50%;
+    }
+  }
+  .nickname {
+    font-weight: bold;
+  }
+  .dropdown-menu {
+    background: $primary-color;
+    visibility: hidden;
+    z-index: -5;
+    position: absolute;
+    top: 100%;
+    right: -15px;
+    width: 150px;
+    border: 2px solid $border-color;
+    li {
+      display: block;
+      text-align: left;
+      padding: 5px 0;
+    }
+    ul {
+      padding: 0 10px;
+    }
+  }
+  &:hover .dropdown-menu {
+    visibility: visible;
+    z-index: 3;
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  header {
+    position: relative;
+    justify-content: space-between;
+  .profile {
+    .dropdown-menu {
+      width: 100%;
+      ul {
+        padding: 0 40px;
+      }
+    }
+  }
+  }
+}
+

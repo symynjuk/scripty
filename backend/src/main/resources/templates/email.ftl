@@ -9,7 +9,7 @@
         <td bgcolor="#F5FFFA" style="padding: 40px 30px 40px 30px;">
             <p>Dear, ${firstName} ${lastName},</p>
             <p>Thank you for signing up!</p>
-            <p>Please confirm activation of your account by clicking <a href="${url}/registrationConfirm?token=${token}">here</a></p>
+            <p>Please confirm activation of your account by clicking <a href="${url}registrationConfirm?token=${token}">here</a></p>
         </td>
     </tr>
 </table>

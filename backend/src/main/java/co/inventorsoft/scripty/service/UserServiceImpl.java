@@ -1,9 +1,11 @@
 package co.inventorsoft.scripty.service;
 import co.inventorsoft.scripty.exception.ApplicationException;
 import co.inventorsoft.scripty.model.dto.EmailDto;
+import co.inventorsoft.scripty.model.entity.PasswordToken;
 import co.inventorsoft.scripty.model.entity.User;
 import co.inventorsoft.scripty.model.entity.VerificationToken;
 import co.inventorsoft.scripty.model.dto.UserDto;
+import co.inventorsoft.scripty.repository.PasswordTokenRepository;
 import co.inventorsoft.scripty.repository.UserRepository;
 import co.inventorsoft.scripty.repository.VerificationTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +28,19 @@ public class UserServiceImpl implements UserService{
     private VerificationTokenRepository tokenRepository;
     private PasswordEncoder passwordEncoder;
     private EmailService emailService;
+    private PasswordTokenRepository passwordTokenRepository;
+
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
                            VerificationTokenRepository tokenRepository,
                            PasswordEncoder passwordEncoder,
-                           EmailService emailService){
+                           EmailService emailService,
+                           PasswordTokenRepository passwordTokenRepository){
         this.userRepository = userRepository;
         this.tokenRepository = tokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.passwordTokenRepository = passwordTokenRepository;
     }
 
     public User findByEmail(final String email){
@@ -52,7 +58,7 @@ public class UserServiceImpl implements UserService{
         final User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(userDto.getValidPassword()));
         user.setEmail(userDto.getEmail());
         user.setEnabled(false);
         user.setRole("User");
@@ -78,7 +84,7 @@ public class UserServiceImpl implements UserService{
         }
         final VerificationToken verificationToken = verificationTokenOptional.get();
         final User user = verificationToken.getUser();
-        Instant instantExp = verificationToken.getExpiryDate();
+        final Instant instantExp = verificationToken.getExpiryDate();
         final Instant instant = Clock.systemDefaultZone().instant();
         if ((instantExp.isBefore(instant))) {
             throw new ApplicationException("Time of user verification link has expired", HttpStatus.BAD_REQUEST);
@@ -98,5 +104,20 @@ public class UserServiceImpl implements UserService{
                .map(token -> token.updateToken(UUID.randomUUID().toString()))
                .map(tokenRepository::save)
                .orElseThrow(()-> new ApplicationException("Token not found", HttpStatus.OK));
+    }
+
+    private void createResetPasswordToken(final User user, final String passwordToken){
+        final PasswordToken resetPasswordToken = new PasswordToken(passwordToken, user);
+        passwordTokenRepository.save(resetPasswordToken);
+    }
+
+    public void sendResetPasswordToken(final EmailDto emailDto){
+        Optional<User> userOptional = userRepository.findByEmail(emailDto.getEmail());
+        if(userOptional.isPresent()) {
+            final User user = userOptional.get();
+            final String resetPasswordToken = UUID.randomUUID().toString();
+            createResetPasswordToken(user, resetPasswordToken);
+            emailService.sendEmailWithResetPasswordToken(user, resetPasswordToken);
+        }
     }
 }
