@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  *
@@ -16,9 +17,10 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
-
+    @Size(min = 2, max = 20)
     @NotBlank(message = "Please provide your first name")
     String firstName;
+    @Size(min = 2, max = 20)
     @NotBlank(message = "Please provide your last name")
     String lastName;
     @ValidPassword
