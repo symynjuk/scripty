@@ -1,5 +1,6 @@
 package co.inventorsoft.scripty.controller;
 import co.inventorsoft.scripty.model.dto.EmailDto;
+import co.inventorsoft.scripty.model.dto.ResetPasswordDto;
 import co.inventorsoft.scripty.model.dto.UserDto;
 import co.inventorsoft.scripty.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,11 @@ public class RegistrationController {
     @ResponseStatus(HttpStatus.OK)
     public void resendRegistrationToken(@Valid @RequestBody final EmailDto email){
         userService.resendRegistrationToken(email);
+    }
+
+    @PostMapping(value = "/user/sendPasswordReset", consumes = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public void sendPasswordReset(@Valid @RequestBody EmailDto emailDto){
+        userService.sendResetPasswordToken(emailDto);
     }
 }

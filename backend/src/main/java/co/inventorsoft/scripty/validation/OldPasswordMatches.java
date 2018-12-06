@@ -13,11 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({FIELD,TYPE, ANNOTATION_TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = UpdatePasswordMatchesValidator.class)
+@Constraint(validatedBy = OldPasswordMatchesValidator.class)
 @Documented
-public @interface UpdatePasswordMatches {
+public @interface OldPasswordMatches {
 
-    String message() default "Confirm password doesn't match.";
+    String message() default "New password cannot be the same as the old one.";
 
     Class<?>[] groups() default {};
 

@@ -4,28 +4,30 @@ import co.inventorsoft.scripty.validation.ValidPassword;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 /**
  *
  * @author Symyniuk
  *
  */
+
 @Getter
 @Setter
-@EqualsAndHashCode(of="id")
-@PasswordMatches
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
 
-    @NotNull(message = "Please provide your first name")
+    @NotBlank(message = "Please provide your first name")
     String firstName;
-    @NotNull(message = "Please provide your last name")
+    @NotBlank(message = "Please provide your last name")
     String lastName;
     @ValidPassword
-    String password;
-    @NotNull
-    String matchingPassword;
-    @Email(message = "Please provide your email")
+    @PasswordMatches
+    Password password;
+    @Email
+    @NotBlank(message = "Please provide your email")
     String email;
+    public String getValidPassword(){
+        return password.getPassword();
+    }
 }

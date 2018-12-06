@@ -2,7 +2,7 @@ package co.inventorsoft.scripty.model.dto;
 
 import java.util.Arrays;
 
-public enum Methods {
+public enum  Methods {
     POST("post"),
     PUT("put"),
     GET("get");

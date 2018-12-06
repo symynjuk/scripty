@@ -3,7 +3,9 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MaterialModule} from './material-module';
+import {TitleService} from './title.service';
 
 @NgModule({
     declarations: [
@@ -12,10 +14,16 @@ import {MaterialModule} from './material-module';
     imports: [
         BrowserModule,
         AppRoutingModule,
+        BrowserAnimationsModule,
         MaterialModule
     ],
-    providers: [],
+    providers: [
+        TitleService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
+    constructor(titleService: TitleService) {
+        titleService.init();
+    }
 }
