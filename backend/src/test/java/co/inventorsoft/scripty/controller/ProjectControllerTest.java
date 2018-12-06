@@ -86,9 +86,7 @@ public class ProjectControllerTest {
 				.header("Authorization", "Bearer  " + accessToken)
 				.contentType(JWTSecurity.CONTENT_TYPE)
 				.content(jsonString))
-				.andExpect(status().isConflict())
-				.andExpect(content().contentType(JWTSecurity.CONTENT_TYPE))
-				.andExpect(content().string(Matchers.containsString("user@test.co cannot create new project for user2@test.co")));
+				.andExpect(status().isForbidden());
 	}
 
 }

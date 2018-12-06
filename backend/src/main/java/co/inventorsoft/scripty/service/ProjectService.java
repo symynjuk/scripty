@@ -38,9 +38,9 @@ public class ProjectService {
 	final static String DEFAULT_DESCRIPTION = "";
 	final static boolean DEFAULT_VISIBILITY = true;
 
-//	@Value("${path.local.repo}")
+	@Value("${path.local.repo}")
 	String pathLocalRepo;
-//	@Value("${directory.separator}")
+	@Value("${directory.separator}")
 	String directorySeparator;
 
 	public long saveProject(ProjectDto project, String username) {
@@ -71,7 +71,7 @@ public class ProjectService {
 		return projectRepository.save(newProject).getId();
 	}
 
-	public long getProject(String projectName, String username) {
+	public long getProjectId(String projectName, String username) {
 		User user = userRepository.findByEmail(username).get();
 		long projectId = getProjectId(projectName, user);
 		if (projectId > 0) {
@@ -81,7 +81,7 @@ public class ProjectService {
 		}
 	}
 
-	private long getProjectId(String projectName, User user) {
+	public long getProjectId(String projectName, User user) {
 		Project project = projectRepository.findByNameAndUser(projectName, user);
 		if (project == null) {
 			return 0;
