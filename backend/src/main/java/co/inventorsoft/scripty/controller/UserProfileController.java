@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Api(description = "Operations for updating user data")
 @RestController
@@ -29,8 +30,8 @@ public class UserProfileController {
     @ApiOperation(value = "Create new password if the old one's correct.")
     @PutMapping(value="/users/password")
     @PreAuthorize("hasAuthority('ROLE_USER')")
-    public ResponseEntity updatePassword(@AuthenticationPrincipal User user, @RequestBody @Valid UpdatePasswordDto updatePasswordDto){
-        userService.updatePassword(user.getUsername(), updatePasswordDto);
+    public ResponseEntity updatePassword(Principal user, @RequestBody @Valid UpdatePasswordDto updatePasswordDto){
+        userService.updatePassword(user.getName(), updatePasswordDto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
